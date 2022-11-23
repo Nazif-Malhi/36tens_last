@@ -7,14 +7,11 @@ import {
   Dashboard,
   Masters,
   Profile,
-  //   AdminNav,
-  //   AdminSideNav,
+  WorkForce,
   //   Surveys,
   //   Competencies,
-  //   Profile,
   //   Questionier,
-  //   WorkForce,
-  //   Masters,
+  //
 } from "../layouts/admin";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -53,11 +50,18 @@ const Admin = () => {
         <Routes>
           <Route path="dashboard" element={<Dashboard />} />
           {updated && (
-            <Route path="profile" element={<Profile data={user_data} />} />
+            <>
+              <Route path="profile" element={<Profile data={user_data} />} />
+              <Route
+                path="workforce"
+                element={<WorkForce data={user_data} />}
+              />
+            </>
           )}
           <Route path="/master/*" element={<Masters />} />
+
           {/* {updated && (
-              <Route path="workforce" element={<WorkForce data={user_data} />} />
+              
             )}
             <Route path="survey" element={<Surveys />} />
             <Route path="competencies" element={<Competencies />} />

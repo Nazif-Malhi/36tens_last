@@ -2,12 +2,14 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import {
+  bulk_user_reducer,
   change_pass_reducer,
   competency_name_reducer,
   competency_statments_reducer,
   competency_type_reducer,
   department_reducer,
   designation_reducer,
+  employees_reducer,
   groups_reducer,
   user_auth_login_reducer,
   user_data_reducer,
@@ -25,6 +27,8 @@ const reducer = combineReducers({
   competency_types: competency_type_reducer,
   competency_names: competency_name_reducer,
   competency_statements: competency_statments_reducer,
+  employees: employees_reducer,
+  bulk_users: bulk_user_reducer,
 });
 let initialState = {};
 

@@ -3,8 +3,7 @@ import { Delete, Edit } from "./EditDelButtons";
 import React from "react";
 import CustomDataTable from "./DataTable";
 
-const WorkforceColumns = ({ handleEdit, handleDelete, rows }) => {
-  console.log(rows);
+const WorkforceColumns = ({ handleEdit, handleDelete, rows, pending }) => {
   const columns = [
     {
       name: "ID",
@@ -35,14 +34,27 @@ const WorkforceColumns = ({ handleEdit, handleDelete, rows }) => {
       name: "Actions",
       cell: (row) => (
         <div style={{ display: "flex" }}>
-          <Edit onClickHandle={() => handleEdit(row.id)} />
+          <Edit
+            onClickHandle={() =>
+              handleEdit(
+                row.id,
+                row.first_name,
+                row.last_name,
+                row.department,
+                row.designation,
+                row.contact_num,
+                row.group,
+                row.email
+              )
+            }
+          />
           <Delete onClickHandle={() => handleDelete(row.id)} />
         </div>
       ),
       center: true,
     },
   ];
-  return <CustomDataTable column={columns} row={rows} />;
+  return <CustomDataTable column={columns} row={rows} pending={pending} />;
 };
 
 export default WorkforceColumns;

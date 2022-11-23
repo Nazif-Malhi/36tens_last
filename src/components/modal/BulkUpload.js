@@ -3,9 +3,8 @@ import styled from "styled-components";
 
 import { AiOutlineUpload } from "react-icons/ai";
 import { Row, Container, Modal, Button } from "react-bootstrap";
-
-// import { useDispatch, useSelector } from "react-redux";
-// import { addBulkAdd } from "../../Store/actions/bulk_user_Actions";
+import { useDispatch, useSelector } from "react-redux";
+import { add_BulkAdd } from "../../store";
 
 const Upload = styled.div`
   border-radius: 7px;
@@ -35,43 +34,61 @@ const Upload = styled.div`
 `;
 export function BulkUpload(props) {
   const [csv_file, setCsv_File] = useState(null);
-  const inputRef = useRef();
+  const [text_error, setText_error] = useState("");
 
-  // const dispatch = useDispatch();
-  // const { bulk_user, loading, error } = useSelector(
-  //   (state) => state.bulk_users
-  // );
+  const inputRef = useRef(null);
+
+  const dispatch = useDispatch();
+  const { import_fail } = useSelector((state) => state.bulk_users);
 
   const handleDragOver = (event) => {
     event.preventDefault();
-    // console.log(event);
   };
   const handleDrop = (event) => {
     event.preventDefault();
     setCsv_File(event.dataTransfer.files[0]);
-    // console.log(Array.from(event.dataTransfer.files));
-    // console.log(csv_file);
   };
-  // useEffect(() => {
-  //   // console.log(error);
-  //   // console.log(bulk_user);
-  // }, [dispatch]);
+
+  const onButtonClick = () => {
+    inputRef.current.click();
+  };
 
   const handleRequest = () => {
-    // dispatch(addBulkAdd(csv_file));
-    // props.onHide();
+    if (csv_file === null) {
+      setText_error("Please upload file");
+    } else {
+      dispatch(add_BulkAdd(csv_file));
+      if (import_fail) {
+        setText_error(
+          "Not Imported File format wrong or server down or data may be already present"
+        );
+      } else if (!import_fail) {
+        setText_error("");
+        handleClose();
+      }
+    }
   };
 
+  const handleClose = () => {
+    setCsv_File(null);
+    setText_error("");
+
+    props.onHide();
+  };
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" size="lg">
-      <Modal.Header closeButton>
+      <Modal.Header closeButton onClick={() => handleClose()}>
         <Modal.Title id="contained-modal-title-vcenter">Upload CSV</Modal.Title>
       </Modal.Header>
       <Modal.Body className="show-grid">
         <Container>
           <p style={{ color: "#a2abb6" }}>File.csv/File.txt</p>
           {!csv_file ? (
-            <Upload onDragOver={handleDragOver} onDrop={handleDrop}>
+            <Upload
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+              onClick={onButtonClick}
+            >
               <AiOutlineUpload
                 style={{ fontSize: "5.7rem", color: "a2abb6" }}
               />
@@ -80,9 +97,10 @@ export function BulkUpload(props) {
               <input
                 type={"file"}
                 onChange={(e) => {
-                  setCsv_File(e.target.files);
+                  setCsv_File(e.target.files[0]);
                 }}
                 hidden
+                multiple
                 ref={inputRef}
               />
             </Upload>
@@ -96,12 +114,20 @@ export function BulkUpload(props) {
               Can't Import ? <a href="/needhelp">Need Help</a>
             </p>
           </Row>
+          <p
+            style={{
+              color: text_error.length === 0 ? "white" : "red",
+              textAlign: "center",
+            }}
+          >
+            {text_error}
+          </p>
         </Container>
       </Modal.Body>
       <Modal.Footer>
         <Button
           style={{ background: "white", border: "none", color: "black" }}
-          onClick={props.onHide}
+          onClick={() => handleClose()}
         >
           Cancel
         </Button>

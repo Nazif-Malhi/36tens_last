@@ -39,4 +39,6 @@ export {
   update_competencyStatements,
   delete_competencyStatements,
   competencyStatment_clearErrors,
+  get_Employees,
+  add_BulkAdd,
 } from "./Actions";

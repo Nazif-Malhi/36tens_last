@@ -6,17 +6,26 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-// import { useDispatch, useSelector } from "react-redux";
-// import { getGroups } from "../../Store/actions/groups_Actions";
-// import { getDesignation } from "../../Store/actions/designation_Actions";
-// import { getDepartments } from "../../Store/actions/department_Actions";
-// import { register } from "../../Store/actions/register_user_Actions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  department_clearErrors,
+  designation_clearErrors,
+  groups_clearErrors,
+  get_Departments,
+  get_Designation,
+  getGroups,
+  register,
+} from "../../store";
 
-function AddEmployee(props) {
-  // const dispatch = useDispatch();
-  // const { groups } = useSelector((state) => state.groups);
-  // const { designations } = useSelector((state) => state.designations);
-  // const { department } = useSelector((state) => state.departments);
+function AddEmployee({ onHandleCallBack, ...props }) {
+  const dispatch = useDispatch();
+  const { groups, group_error } = useSelector((state) => state.groups);
+  const { designations, designation_error } = useSelector(
+    (state) => state.designations
+  );
+  const { department, department_error } = useSelector(
+    (state) => state.departments
+  );
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -27,11 +36,34 @@ function AddEmployee(props) {
   const [group, setGroup] = useState("");
   const [phone, setPhone] = useState("");
 
-  // useEffect(() => {
-  //   dispatch(getGroups());
-  //   dispatch(getDesignation());
-  //   dispatch(getDepartments());
-  // }, [dispatch]);
+  const [text_error, setText_error] = useState("");
+
+  useEffect(() => {
+    if (group_error || designation_error || department_error) {
+      console.log(group_error, designation_error, department_error);
+      dispatch(designation_clearErrors());
+      dispatch(department_clearErrors());
+      dispatch(groups_clearErrors());
+    }
+    dispatch(getGroups());
+    dispatch(get_Departments());
+    dispatch(get_Designation());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (props.trigger === "isEdit") {
+      setFirstName(props.value_input.name);
+      setLastName(props.value_input.name);
+      setDepartment_Input(props.value_input.name);
+      setDesignation(props.value_input.name);
+      setGroup(props.value_input.name);
+      setEmail(props.value_input.name);
+      setPhone(props.value_input.name);
+    } else {
+      emptyFeilds();
+    }
+    setText_error("");
+  }, [props.value_input, props.trigger]);
 
   const addEmployee = () => {
     const signup_payoad = {
@@ -44,15 +76,56 @@ function AddEmployee(props) {
       department: department_input,
       company_name: props.company_name,
       type: "Company",
-      role_title: "Viewer",
+      role_title: "admin",
       password: "360@password_guest",
+      package_title: 1,
     };
-    // dispatch(register(signup_payoad));
-    // props.onHide();
+    if (
+      firstName.length === 0 ||
+      lastName.length === 0 ||
+      phone.length === 0 ||
+      department_input.length === 0 ||
+      email.length === 0 ||
+      designation.length === 0 ||
+      group.length === 0
+    ) {
+      setText_error("Please Fill all Feilds");
+    } else if (
+      firstName.length > 0 &&
+      lastName.length > 0 &&
+      phone.length > 0 &&
+      department_input.length > 0 &&
+      email.length > 0 &&
+      designation.length > 0 &&
+      group.length > 0
+    ) {
+      dispatch(register(signup_payoad));
+      handleOnClose();
+    }
+  };
+  const handleOnClose = () => {
+    emptyFeilds();
+    setText_error("");
+    props.onHide();
+  };
+
+  const emptyFeilds = () => {
+    setFirstName("");
+    setLastName("");
+    setDepartment_Input("");
+    setDesignation("");
+    setGroup("");
+    setEmail("");
+    setPhone("");
   };
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" size="lg">
-      <Modal.Header closeButton>
+      <Modal.Header
+        closeButton
+        onClick={() => {
+          handleOnClose();
+        }}
+      >
         <Modal.Title id="contained-modal-title-vcenter">
           Add New Employee
         </Modal.Title>
@@ -122,13 +195,13 @@ function AddEmployee(props) {
                   <MenuItem value="">
                     <em>Department</em>
                   </MenuItem>
-                  {/* {department.map((val, index) => {
+                  {department.map((val, index) => {
                     return (
                       <MenuItem id={index} value={val.title} key={index}>
                         {val.title}
                       </MenuItem>
                     );
-                  })} */}
+                  })}
                 </Select>
               </FormControl>
             </Col>
@@ -163,13 +236,13 @@ function AddEmployee(props) {
                   <MenuItem value="">
                     <em>Designation</em>
                   </MenuItem>
-                  {/* {designations.map((val, index) => {
+                  {designations.map((val, index) => {
                     return (
                       <MenuItem id={index} value={val.title} key={index}>
                         {val.title}
                       </MenuItem>
                     );
-                  })} */}
+                  })}
                 </Select>
               </FormControl>
             </Col>
@@ -204,23 +277,33 @@ function AddEmployee(props) {
                   <MenuItem value="">
                     <em>Group</em>
                   </MenuItem>
-                  {/* {groups.map((val, index) => {
+                  {groups.map((val, index) => {
                     return (
                       <MenuItem id={index} value={val.title} key={index}>
                         {val.title}
                       </MenuItem>
                     );
-                  })} */}
+                  })}
                 </Select>
               </FormControl>
             </Col>
           </Row>
+          <p
+            style={{
+              color: text_error.length === 0 ? "white" : "red",
+              textAlign: "center",
+            }}
+          >
+            {text_error}
+          </p>
         </Container>
       </Modal.Body>
       <Modal.Footer>
         <Button
           style={{ background: "white", border: "none", color: "black" }}
-          onClick={props.onHide}
+          onClick={() => {
+            handleOnClose();
+          }}
         >
           Cancel
         </Button>
