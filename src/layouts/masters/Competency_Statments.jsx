@@ -1,36 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
-// import CustomButton from "../../components/buttons/Custombutton";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  CompetenciesColumns,
   CompetencyStatementModal,
+  CompetencyStatmentsColumns,
   CustomButton,
 } from "../../components";
-// import CompetencyStatmentsColumns from "../../components/Table/CompetenciesStatementsColumns";
-// import CompetencyStatementModal from "../../components/modals/competency_statment_modal";
+import {
+  add_competencyStatements,
+  competencyStatment_clearErrors,
+  delete_competencyStatements,
+  get_competencyStatements,
+  update_competencyStatements,
+} from "../../store";
 
-// import {
-//   clearErrors,
-//   deleteCompetency_name,
-//   getCompetency_name,
-//   newCompetency_name,
-//   updateCompetency_name,
-// } from "../../Store/actions/competency_name_Actions";
-// import {
-//   deleteCompetency_statements,
-//   getCompetency_statements,
-//   newCompetency_statements,
-//   updateCompetency_statements,
-// } from "../../Store/actions/competency_statements_Actions";
 import { Container } from "./Container";
 
 const Competency_Statments = () => {
-  // const dispatch = useDispatch();
-  // const { competency_statements, loading, error } = useSelector(
-  //   (state) => state.competency_statements
-  // );
+  const dispatch = useDispatch();
+  const { competency_statements, loading, comp_state_error } = useSelector(
+    (state) => state.competency_statements
+  );
 
   const [show_modal, setShow_Modal] = useState(false);
   const [editValue, setEditValue] = useState([]);
@@ -38,12 +29,12 @@ const Competency_Statments = () => {
   const [id, setId] = useState(0);
   const temp = [];
 
-  // useEffect(() => {
-  //   // if (error) {
-  //   //   dispatch(clearErrors());
-  //   // }
-  //   dispatch(getCompetency_statements());
-  // }, [dispatch]);
+  useEffect(() => {
+    if (comp_state_error) {
+      dispatch(competencyStatment_clearErrors());
+    }
+    dispatch(get_competencyStatements());
+  }, [dispatch]);
 
   const handleEdit = (name, id, type, def, statement) => {
     const data = {
@@ -52,34 +43,37 @@ const Competency_Statments = () => {
       def: def,
       statement: statement,
     };
-    console.log(data);
     setEditValue(data);
     setId(id);
     setTrigger("isEdit");
     setShow_Modal(true);
   };
   const handleDelete = (e) => {
-    // dispatch(deleteCompetency_statements(e));
+    dispatch(delete_competencyStatements(e));
   };
   const handleModal = (e) => {
-    const competency_statment_payload = {
-      competency: e.competency,
-      competency_title: e.competency_title,
-      type: e.type,
-      defination: e.defination[0],
-      statement: e.statement,
-    };
-    setShow_Modal(false);
-    setTrigger("");
-    switch (e.trigger) {
-      case "isEdit":
-        // dispatch(updateCompetency_statements(competency_statment_payload, id));
-        break;
-      case "isAdd":
-        // dispatch(newCompetency_statements(competency_statment_payload));
-        break;
-      default:
-        break;
+    if (e !== undefined) {
+      const competency_statment_payload = {
+        competency: e.competency,
+        competency_title: e.competency_title,
+        type: e.type,
+        defination: e.defination[0],
+        statement: e.statement,
+      };
+      setShow_Modal(false);
+      setTrigger("");
+      switch (e.trigger) {
+        case "isEdit":
+          dispatch(
+            update_competencyStatements(competency_statment_payload, id)
+          );
+          break;
+        case "isAdd":
+          dispatch(add_competencyStatements(competency_statment_payload));
+          break;
+        default:
+          break;
+      }
     }
   };
 
@@ -106,15 +100,15 @@ const Competency_Statments = () => {
         </Row>
       </Row>
       <Row className="body">
-        <CompetenciesColumns
+        <CompetencyStatmentsColumns
           handleDelete={(e) => {
             handleDelete(e);
           }}
           handleEdit={(name, id, type, def, statement) => {
             handleEdit(name, id, type, def, statement);
           }}
-          // rows={!loading ? competency_statements : temp}
-          // pending={loading}
+          rows={!loading ? competency_statements : temp}
+          pending={loading}
         />
       </Row>
       <CompetencyStatementModal
@@ -125,6 +119,7 @@ const Competency_Statments = () => {
         }}
         trigger={trigger}
         value_input={editValue}
+        data={competency_statements}
         onHandleCallBack={(e) => {
           handleModal(e);
         }}

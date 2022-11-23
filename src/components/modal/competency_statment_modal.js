@@ -1,3 +1,4 @@
+//Done
 import React, { useState, useEffect } from "react";
 import { Button, Container, Modal, Row } from "react-bootstrap";
 import {
@@ -9,55 +10,37 @@ import {
   TextField,
 } from "@mui/material";
 
-// import { useDispatch, useSelector } from "react-redux";
-
-// import {
-//   clearErrors as clear_typeError,
-//   getCompetency_type,
-// } from "../../Store/actions/comptenecy_type_Actions";
-// import {
-//   clearErrors as clear_nameError,
-//   getCompetency_name,
-// } from "../../Store/actions/competency_name_Actions";
+import { useSelector } from "react-redux";
+import { is_filter_to_add_in_statment } from "../../utils/other";
 
 function CompetencyStatementModal({ onHandleCallBack, ...props }) {
-  // const dispatch = useDispatch();
+  const { competency_type } = useSelector((state) => state.competency_types);
+  const { competency_name } = useSelector((state) => state.competency_names);
 
   const [competencyName, setCompetencyName] = useState("");
   const [competencytype, setCompetencyType] = useState("");
   const [def, setDef] = useState("");
   const [statement, setStatement] = useState("");
 
-  // const { competency, error } = useSelector((state) => state.competency_types);
-  // const { competency_name } = useSelector((state) => state.competency_names);
-
   const [filterCompetencyName, setFilter_CompetencyName] = useState([]);
   const [competency_name_id, setCompetency_Name_ID] = useState(-1);
+  const [text_error, setText_error] = useState("");
 
-  // useEffect(() => {
-  //   if (error) {
-  //     dispatch(clear_nameError());
-  //     dispatch(clear_typeError());
-  //   }
-  //   dispatch(getCompetency_name());
-  //   dispatch(getCompetency_type());
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   if (props.trigger === "isEdit") {
-  //     setCompetencyName(props.value_input.name);
-  //     setCompetencyType(props.value_input.type);
-  //     setDef(props.value_input.def);
-  //     setStatement(props.value_input.statement);
-  //     handleCompetency_typeChange(props.value_input.type);
-  //     console.log(competencytype.length);
-  //   } else {
-  //     setCompetencyName("");
-  //     setCompetencyType("");
-  //     setDef("");
-  //     setStatement("");
-  //   }
-  // }, [props.value_input, props.trigger]);
+  useEffect(() => {
+    if (props.trigger === "isEdit") {
+      setCompetencyName(props.value_input.name);
+      setCompetencyType(props.value_input.type);
+      setDef(props.value_input.def);
+      setStatement(props.value_input.statement);
+      handleCompetency_typeChange(props.value_input.type);
+    } else {
+      setCompetencyName("");
+      setCompetencyType("");
+      setDef("");
+      setStatement("");
+    }
+    setText_error("");
+  }, [props.value_input, props.trigger]);
 
   const handleModal = () => {
     const data = {
@@ -68,26 +51,49 @@ function CompetencyStatementModal({ onHandleCallBack, ...props }) {
       statement: statement,
       trigger: props.trigger,
     };
-    return data;
+    if (
+      competencyName.length === 0 ||
+      competencytype.length === 0 ||
+      statement.length === 0
+    ) {
+      setText_error("Please Fill Feilds");
+    } else if (
+      competencyName.length > 0 &&
+      competencytype.length > 0 &&
+      statement.length > 0
+    ) {
+      if (
+        is_filter_to_add_in_statment(
+          props.data,
+          competencytype,
+          competencyName,
+          statement
+        )
+      ) {
+        setText_error("Already Exist");
+      } else {
+        setText_error("");
+        return data;
+      }
+    }
   };
 
   const handleCompetency_typeChange = (value) => {
     setCompetencyType(value);
-
-    // const filterData = competency_name.filter((item) => item.type === value);
-    // setFilter_CompetencyName(filterData);
+    const filterData = competency_name.filter((item) => item.type === value);
+    setFilter_CompetencyName(filterData);
   };
   const handleCompany_NameChange = (value) => {
     setCompetencyName(value);
-    // const filterData = competency_name
-    //   .filter(function (item) {
-    //     return item.title === value;
-    //   })
-    //   .map(function (item) {
-    //     setCompetency_Name_ID(item.id);
-    //     return item.defination;
-    //   });
-    // setDef(filterData);
+    const filterData = competency_name
+      .filter(function (item) {
+        return item.title === value;
+      })
+      .map(function (item) {
+        setCompetency_Name_ID(item.id);
+        return item.defination;
+      });
+    setDef(filterData);
   };
 
   return (
@@ -115,13 +121,13 @@ function CompetencyStatementModal({ onHandleCallBack, ...props }) {
                 onChange={(e) => handleCompetency_typeChange(e.target.value)}
                 input={<OutlinedInput label="Competency Type" />}
               >
-                {/* {competency.map((val, id) => {
+                {competency_type.map((val, id) => {
                   return (
                     <MenuItem key={val.title} value={val.title}>
                       {val.title}
                     </MenuItem>
                   );
-                })} */}
+                })}
               </Select>
             </FormControl>
           </Row>
@@ -183,6 +189,15 @@ function CompetencyStatementModal({ onHandleCallBack, ...props }) {
               fullWidth
             />
           </Row>
+          <p
+            style={{
+              color: text_error.length === 0 ? "white" : "red",
+              textAlign: "center",
+              fontWeight: "bold",
+            }}
+          >
+            {text_error}
+          </p>
         </Container>
       </Modal.Body>
       <Modal.Footer>

@@ -17,3 +17,43 @@ export {
   deleteGroup,
   groups_clearErrors,
 } from "./groups_actions";
+
+export {
+  get_Designation,
+  add_Designation,
+  update_Designation,
+  delete_Designation,
+  designation_clearErrors,
+} from "./designation_actions";
+
+export {
+  get_Departments,
+  add_Department,
+  update_Department,
+  delete_Department,
+  department_clearErrors,
+} from "./departments_action";
+
+export {
+  get_competencyType,
+  add_competencyType,
+  update_competencyType,
+  delete_competencyType,
+  comp_type_clearErrors,
+} from "./competency_type_actions";
+
+export {
+  get_competencyName,
+  add_competencyName,
+  update_competencyName,
+  delete_competencyName,
+  comp_name_clearErrors,
+} from "./competency_name_actions";
+
+export {
+  get_competencyStatements,
+  add_competencyStatements,
+  update_competencyStatements,
+  delete_competencyStatements,
+  competencyStatment_clearErrors,
+} from "./competencies_statments_actions";

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import {
   Competency_Name,
@@ -9,7 +9,16 @@ import {
   Department,
 } from "../masters";
 
+import { useDispatch } from "react-redux";
+import { get_competencyName, get_competencyType } from "../../store";
+
 const Masters = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(get_competencyType());
+    dispatch(get_competencyName());
+  }, [dispatch]);
+
   return (
     <Routes>
       <Route path="department" element={<Department />} />
