@@ -1,41 +1,39 @@
+//completed
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
-// import CustomButton from "../../components/buttons/Custombutton";
 import { AiOutlinePlus } from "react-icons/ai";
-import { CustomButton, GroupColumns, SingleFeildModal } from "../../components";
-// import GroupColumns from "../../components/Table/GroupsColumns";
-
-// import { useDispatch, useSelector } from "react-redux";
-// import {
-//   clearErrors,
-//   deleteDesignation,
-//   getDesignation,
-//   newDesignation,
-//   updateDesignation,
-// } from "../../Store/actions/designation_Actions";
-// import SingleFeildModal from "../../components/modals/Dynamic_single_feild_Modal";
-
 import { Container } from "./Container";
 
+import { CustomButton, GroupColumns, SingleFeildModal } from "../../components";
+
+import { useDispatch, useSelector } from "react-redux";
+import {
+  add_Designation,
+  delete_Designation,
+  designation_clearErrors,
+  get_Designation,
+  update_Designation,
+} from "../../store";
+
 const Designation = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const { designations, loading, designation_error } = useSelector(
+    (state) => state.designations
+  );
+
   const [trigger, setTrigger] = useState("");
   const [editValue, setEditValue] = useState("");
   const [id, setId] = useState(0);
   const [show_modal, setShow_Modal] = useState(false);
   let temp = [];
 
-  // const { designations, loading, error } = useSelector(
-  //   (state) => state.designations
-  // );
-
-  // useEffect(() => {
-  //   console.log(error);
-  //   // if (error) {
-  //   //   dispatch(clearErrors());
-  //   // }
-  //   dispatch(getDesignation());
-  // }, [dispatch]);
+  useEffect(() => {
+    if (designation_error) {
+      console.log(designation_error);
+      dispatch(designation_clearErrors());
+    }
+    dispatch(get_Designation());
+  }, [dispatch]);
 
   const handleEdit = (name, id) => {
     setEditValue(name);
@@ -44,24 +42,25 @@ const Designation = () => {
     setShow_Modal(true);
   };
   const handleDelete = (e) => {
-    // dispatch(deleteDesignation(e));
+    dispatch(delete_Designation(e));
   };
   const handleModal = (e) => {
-    const designation_payload = {
-      title: e.new_value,
-    };
-    console.log(designation_payload);
-    setShow_Modal(false);
-    setTrigger("");
-    switch (e.trigger) {
-      case "isEdit":
-        // dispatch(updateDesignation(designation_payload, id));
-        break;
-      case "isAdd":
-        // dispatch(newDesignation(designation_payload));
-        break;
-      default:
-        break;
+    if (e !== undefined) {
+      const designation_payload = {
+        title: e.new_value,
+      };
+      setShow_Modal(false);
+      setTrigger("");
+      switch (e.trigger) {
+        case "isEdit":
+          dispatch(update_Designation(designation_payload, id));
+          break;
+        case "isAdd":
+          dispatch(add_Designation(designation_payload));
+          break;
+        default:
+          break;
+      }
     }
   };
 
@@ -95,8 +94,8 @@ const Designation = () => {
           handleEdit={(name, id) => {
             handleEdit(name, id);
           }}
-          // rows={!loading ? designations : temp}
-          // pending={loading}
+          rows={!loading ? designations : temp}
+          pending={loading}
         />
       </Row>
       <SingleFeildModal
@@ -109,6 +108,7 @@ const Designation = () => {
         feild_name={"Designation Name"}
         trigger={trigger}
         value_input={editValue}
+        data={designations}
         onHandleCallBack={(e) => {
           handleModal(e);
         }}

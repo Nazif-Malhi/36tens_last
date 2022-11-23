@@ -1,24 +1,27 @@
+//complete
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
-// import CustomButton from "../../components/buttons/Custombutton";
 import { AiOutlinePlus } from "react-icons/ai";
-import { CustomButton, GroupColumns, SingleFeildModal } from "../../components";
-
-// import { useDispatch, useSelector } from "react-redux";
-// import {
-//   clearErrors,
-//   deleteDepartment,
-//   getDepartments,
-//   newDepartment,
-//   updateDepartment,
-// } from "../../Store/actions/department_Actions";
-// import GroupColumns from "../../components/Table/GroupsColumns";
-// import SingleFeildModal from "../../components/modals/Dynamic_single_feild_Modal";
 
 import { Container } from "./Container";
 
+import { CustomButton, GroupColumns, SingleFeildModal } from "../../components";
+
+import { useDispatch, useSelector } from "react-redux";
+import {
+  add_Department,
+  delete_Department,
+  department_clearErrors,
+  get_Departments,
+  update_Department,
+} from "../../store";
+
 const Department = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const { department, loading, department_error } = useSelector(
+    (state) => state.departments
+  );
+
   const [trigger, setTrigger] = useState("");
   const [editValue, setEditValue] = useState("");
   const [id, setId] = useState(0);
@@ -26,16 +29,13 @@ const Department = () => {
 
   let temp = [];
 
-  // const { department, loading, error } = useSelector(
-  //   (state) => state.departments
-  // );
-
-  // useEffect(() => {
-  //   if (error) {
-  //     dispatch(clearErrors());
-  //   }
-  //   dispatch(getDepartments());
-  // }, [dispatch]);
+  useEffect(() => {
+    if (department_error) {
+      console.log(department_error);
+      dispatch(department_clearErrors());
+    }
+    dispatch(get_Departments());
+  }, [dispatch]);
 
   const handleEdit = (name, id) => {
     setEditValue(name);
@@ -44,24 +44,25 @@ const Department = () => {
     setShow_Modal(true);
   };
   const handleDelete = (e) => {
-    // dispatch(deleteDepartment(e));
+    dispatch(delete_Department(e));
   };
   const handleModal = (e) => {
-    const department_payload = {
-      title: e.new_value,
-    };
-    console.log(department_payload);
-    setShow_Modal(false);
-    setTrigger("");
-    switch (e.trigger) {
-      case "isEdit":
-        // dispatch(updateDepartment(department_payload, id));
-        break;
-      case "isAdd":
-        // dispatch(newDepartment(department_payload));
-        break;
-      default:
-        break;
+    if (e !== undefined) {
+      const department_payload = {
+        title: e.new_value,
+      };
+      setShow_Modal(false);
+      setTrigger("");
+      switch (e.trigger) {
+        case "isEdit":
+          dispatch(update_Department(department_payload, id));
+          break;
+        case "isAdd":
+          dispatch(add_Department(department_payload));
+          break;
+        default:
+          break;
+      }
     }
   };
 
@@ -95,8 +96,8 @@ const Department = () => {
           handleEdit={(name, id) => {
             handleEdit(name, id);
           }}
-          // rows={!loading ? department : temp}
-          // pending={loading}
+          rows={!loading ? department : temp}
+          pending={loading}
         />
       </Row>
       <SingleFeildModal
@@ -109,6 +110,7 @@ const Department = () => {
         feild_name={"Department Name"}
         trigger={trigger}
         value_input={editValue}
+        data={department}
         onHandleCallBack={(e) => {
           handleModal(e);
         }}

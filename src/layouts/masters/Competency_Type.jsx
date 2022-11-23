@@ -1,41 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
-// import CustomButton from "../../components/buttons/Custombutton";
+import { Container } from "./Container";
+import { CustomButton, GroupColumns, SingleFeildModal } from "../../components";
 import { AiOutlinePlus } from "react-icons/ai";
 
 import { useDispatch, useSelector } from "react-redux";
-import { CustomButton, GroupColumns, SingleFeildModal } from "../../components";
-
-// import GroupColumns from "../../components/Table/GroupsColumns";
-// import SingleFeildModal from "../../components/modals/Dynamic_single_feild_Modal";
-// import {
-//   clearErrors,
-//   deleteCompetency_type,
-//   getCompetency_type,
-//   newCompetency_type,
-//   updateCompetency_type,
-// } from "../../Store/actions/comptenecy_type_Actions";
-import { Container } from "./Container";
+import {
+  add_competencyType,
+  comp_type_clearErrors,
+  delete_competencyType,
+  get_competencyType,
+  update_competencyType,
+} from "../../store";
 
 const Competency_Type = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const { competency_type, loading, comp_type_error } = useSelector(
+    (state) => state.competency_types
+  );
+
   const [trigger, setTrigger] = useState("");
   const [editValue, setEditValue] = useState("");
   const [id, setId] = useState(0);
   const [show_modal, setShow_Modal] = useState(false);
-
   let temp = [];
 
-  // const { competency, loading, error } = useSelector(
-  //   (state) => state.competency_types
-  // );
-
-  // useEffect(() => {
-  //   if (error) {
-  //     dispatch(clearErrors());
-  //   }
-  //   dispatch(getCompetency_type());
-  // }, [dispatch]);
+  useEffect(() => {
+    if (comp_type_error) {
+      dispatch(comp_type_clearErrors());
+    }
+    dispatch(get_competencyType());
+  }, [dispatch]);
 
   const handleEdit = (name, id) => {
     setEditValue(name);
@@ -44,24 +39,25 @@ const Competency_Type = () => {
     setShow_Modal(true);
   };
   const handleDelete = (e) => {
-    // dispatch(deleteCompetency_type(e));
+    dispatch(delete_competencyType(e));
   };
   const handleModal = (e) => {
-    const competency_type_payload = {
-      title: e.new_value,
-    };
-    console.log(competency_type_payload);
-    setShow_Modal(false);
-    setTrigger("");
-    switch (e.trigger) {
-      case "isEdit":
-        // dispatch(updateCompetency_type(competency_type_payload, id));
-        break;
-      case "isAdd":
-        // dispatch(newCompetency_type(competency_type_payload));
-        break;
-      default:
-        break;
+    if (e !== undefined) {
+      const competency_type_payload = {
+        title: e.new_value,
+      };
+      setShow_Modal(false);
+      setTrigger("");
+      switch (e.trigger) {
+        case "isEdit":
+          dispatch(update_competencyType(competency_type_payload, id));
+          break;
+        case "isAdd":
+          dispatch(add_competencyType(competency_type_payload));
+          break;
+        default:
+          break;
+      }
     }
   };
 
@@ -95,8 +91,8 @@ const Competency_Type = () => {
           handleEdit={(name, id) => {
             handleEdit(name, id);
           }}
-          // rows={!loading ? competency : temp}
-          // pending={loading}
+          rows={!loading ? competency_type : temp}
+          pending={loading}
         />
       </Row>
       <SingleFeildModal
@@ -109,6 +105,7 @@ const Competency_Type = () => {
         feild_name={"Competency Type"}
         trigger={trigger}
         value_input={editValue}
+        data={competency_type}
         onHandleCallBack={(e) => {
           handleModal(e);
         }}
