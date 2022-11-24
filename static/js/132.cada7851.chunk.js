@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunk_36tens=self.webpackChunk_36tens||[]).push([[132],{132:function(n,e,t){t.r(e);var s,i=t(168),c=(t(2791),t(8789)),h=t(184),r=c.default.div(s||(s=(0,i.Z)(["\n  width: 100%;\n  height: 100%;\n  align-items: center;\n  display: flex;\n  justify-content: center;\n"])));e.default=function(){return(0,h.jsx)(r,{children:(0,h.jsx)("h1",{children:"Dashboard"})})}}}]);
+//# sourceMappingURL=132.cada7851.chunk.js.map
