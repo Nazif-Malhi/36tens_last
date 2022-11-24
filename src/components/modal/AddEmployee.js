@@ -12,6 +12,9 @@ import {
   getGroups,
   register,
   updateUserData,
+  add_employee,
+  user_reg_clearErrors,
+  get_Employees,
 } from "../../store";
 import { is_emailValid } from "../../utils";
 
@@ -24,7 +27,9 @@ function AddEmployee({ onHandleCallBack, ...props }) {
   const { department, department_error } = useSelector(
     (state) => state.departments
   );
-
+  const { user_reg, user_reg_error, is_reg } = useSelector(
+    (state) => state.user_reg
+  );
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [date, setDate] = useState("");
@@ -34,7 +39,6 @@ function AddEmployee({ onHandleCallBack, ...props }) {
   const [group, setGroup] = useState("");
   const [phone, setPhone] = useState("");
   const [email_validation_error, setEmail_validation_error] = useState(false);
-
 
   const [text_error, setText_error] = useState("");
 
@@ -84,6 +88,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
   }, [props.value_input, props.trigger]);
 
   const addEmployee = () => {
+    setText_error("");
     const update_payoad = {
       first_name: firstName,
       last_name: lastName,
@@ -117,24 +122,35 @@ function AddEmployee({ onHandleCallBack, ...props }) {
       designation.length > 0 &&
       group.length > 0
     ) {
-      if(email_validation_error){
+      if (email_validation_error) {
         setText_error("Email not valid");
-
+      } else {
+        switch (props.trigger) {
+          case "isAdd":
+            dispatch(register(update_payoad));
+            break;
+          case "isEdit":
+            dispatch(updateUserData(update_payoad, props.id));
+            break;
+          // // if()
+          // // handleOnClose()
+          default:
+            break;
+        }
       }
-      else{
-      switch (props.trigger) {
-        case "isAdd":
-          console.log("add");
-          return [update_payoad, "isAdd"];
-        case "isEdit":
-          console.log("isEdit");
-          return [update_payoad, "isEdit", props.id];
-        default:
-          break;
-      }
-    }
     }
   };
+  useEffect(() => {
+    if (!is_reg) {
+      if (user_reg_error !== undefined) {
+        setText_error(user_reg_error);
+      }
+    } else {
+      dispatch(get_Employees(props.company_name));
+      handleOnClose();
+    }
+  }, [is_reg]);
+
   const handleOnClose = () => {
     emptyFeilds();
     setText_error("");
@@ -161,7 +177,6 @@ function AddEmployee({ onHandleCallBack, ...props }) {
       setText_error("Email not valid");
     }
   };
-
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" size="lg">
@@ -204,7 +219,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
               />
             </Col>
           </Row>
-          
+
           <Row style={{ marginBottom: "10px" }}>
             <Col xs={8} md={6}>
               <TextField
@@ -289,7 +304,6 @@ function AddEmployee({ onHandleCallBack, ...props }) {
             </Col>
           </Row>
           <Row style={{ marginBottom: "10px" }}>
-           
             <Col xs={8} md={6}>
               <FormControl
                 sx={{ width: "100%" }}
@@ -340,7 +354,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
         <Button
           style={{ background: "#a600a0", border: "none" }}
           onClick={() => {
-            onHandleCallBack(addEmployee());
+            addEmployee();
           }}
         >
           {props.trigger === "isEdit" ? "Update" : "Add"}

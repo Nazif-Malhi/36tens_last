@@ -19,7 +19,10 @@ import {
   register,
   updateUserData,
 } from "../../store";
-import { add_employee, employees_clearErrors } from "../../store/Actions/employees_actions";
+import {
+  add_employee,
+  employees_clearErrors,
+} from "../../store/Actions/employees_actions";
 
 const WorkforceContainer = styled.div`
   width: 100%;
@@ -112,14 +115,11 @@ const WorkForce = ({ data }) => {
       console.log(employees_error);
       dispatch(employees_clearErrors());
     }
-      dispatch(get_Employees(data.company_name));
-    
+    dispatch(get_Employees(data.company_name));
   }, [dispatch]);
 
   useEffect(() => {
-    // if (!loading) {
     setFilterResults(employees);
-    // }
   }, [
     employees,
     //, loading
@@ -155,17 +155,18 @@ const WorkForce = ({ data }) => {
   };
 
   const handleCallBackModal = (e) => {
-    if (e[1] === "isAdd") {
-      // dispatch(register(e[0]));
-      dispatch(add_employee(e[0], data.company_name))
-      setShowAddEmployeeModal(false);
-      setTrigger("");
-      setId(-1);
-    } else if (e[1] === "isEdit") {
-      dispatch(updateUserData(e[0], e[2]));
-      setShowAddEmployeeModal(false);
-      setTrigger("");
-      setId(-1);
+    if (e !== undefined) {
+      if (e[1] === "isAdd") {
+        dispatch(add_employee(e[0], data.company_name));
+        setShowAddEmployeeModal(false);
+        setTrigger("");
+        setId(-1);
+      } else if (e[1] === "isEdit") {
+        dispatch(updateUserData(e[0], e[2]));
+        setShowAddEmployeeModal(false);
+        setTrigger("");
+        setId(-1);
+      }
     }
   };
 
@@ -263,7 +264,7 @@ const WorkForce = ({ data }) => {
         value_input={editValue}
         id={id}
         company_name={data.company_name}
-        onHandleCallBack={handleCallBackModal}
+        // onHandleCallBack={handleCallBackModal}
       />
       <BulkUpload
         show={isBulkUpload}

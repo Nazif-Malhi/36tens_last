@@ -1,11 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import styled from "styled-components";
 import { BsPersonFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { Nav, NavLink, NavMenu } from "../../components";
 import { Logo } from "../../assets";
-import Dropdown from 'react-bootstrap/Dropdown';
-import Form from 'react-bootstrap/Form';
+import Dropdown from "react-bootstrap/Dropdown";
 
 const Navbar = styled.div`
 background: #f7f8fa;
@@ -52,21 +51,20 @@ z-index:100;
             }
       p {
         margin: 0px;
-        color:#3b4048;        font-weight: 500;
+        color:#3b4048;        
+        font-weight: 500;
         
       }
     }
-    .dropdown-menue{
-      
-    }
-
+    
 
     .circle {
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      background:#3b4048;      border-radius: 50%;
+      background:#3b4048;      
+      border-radius: 50%;
       width: 40px;
       height: 40px;
       text-align: center;
@@ -84,18 +82,8 @@ const AltNavLink = styled(NavLink)`
 
 const AdminNav = () => {
   const navigate = useNavigate();
-  //  const [show, setShow] = useState(false);
-  //  const handleClick = (event) => {
-  //    setShow(true);
-  //  };
-  //  const handleClose = () => {
-  //    setShow(false);
-  //  };
-
   const handleProfile = () => {
-
     navigate("profile");
-
   };
   const handleLogout = () => {
     localStorage.clear();
@@ -115,37 +103,22 @@ const AdminNav = () => {
         </Nav>
       </div>
       <div className="right">
-        {/* <div className="button"> */}
         <Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
-      <div className="circle">
-            <BsPersonFill />
-          </div>
-          <div className="text">
-            <p>Jan Doe</p>
-          </div>
-      </Dropdown.Toggle>
+          <Dropdown.Toggle variant="success" id="dropdown-basic">
+            <div className="circle">
+              <BsPersonFill />
+            </div>
+            <div className="text">
+              <p>Jan Doe</p>
+            </div>
+          </Dropdown.Toggle>
 
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={handleProfile}>Profile</Dropdown.Item>
-        <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-          
-        </div>
-      {/* </div> */}
-      
-      {/* <Menu
-        id="basic-menu"
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem onClick={() =>{handleProfile()}}>Profile</MenuItem>
-        <MenuItem onClick={() => {handleLogout()}}>Logout</MenuItem>
-      </Menu> */}
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={handleProfile}>Profile</Dropdown.Item>
+            <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
     </Navbar>
   );
 };

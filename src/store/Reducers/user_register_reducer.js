@@ -8,6 +8,8 @@ import {
 export const user_regiser_reducer = (
   state = {
     user_reg: [],
+    is_reg: null,
+    user_reg_error: null,
   },
   action
 ) => {
@@ -22,12 +24,14 @@ export const user_regiser_reducer = (
         loading: false,
         user_reg: action.payload.data,
         status: action.payload.statusText,
+        is_reg: true,
       };
     case USER_REGISTER_FAIL:
       return {
         loading: false,
         user_reg: null,
-        user_reg_error: action.payload,
+        user_reg_error: action.payload.data.email[0],
+        is_reg: false,
       };
 
     case USER_REGISTER_CLEAR_ERRORS:

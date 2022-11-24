@@ -31,8 +31,8 @@ const Upload = styled.div`
   h6 {
     color: #a2abb6;
   }
-  .buttonadd{
-    width:40%
+  .buttonadd {
+    width: 40%;
   }
 `;
 export function BulkUpload(props) {
@@ -78,6 +78,7 @@ export function BulkUpload(props) {
 
     props.onHide();
   };
+
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" size="lg">
       <Modal.Header closeButton onClick={() => handleClose()}>
@@ -87,10 +88,7 @@ export function BulkUpload(props) {
         <Container>
           <p style={{ color: "#a2abb6" }}>File.csv/File.txt</p>
           {!csv_file ? (
-            <Upload
-              onDragOver={handleDragOver}
-              onDrop={handleDrop}
-            >
+            <Upload onDragOver={handleDragOver} onDrop={handleDrop}>
               <AiOutlineUpload
                 style={{ fontSize: "5.7rem", color: "a2abb6" }}
               />
@@ -113,18 +111,24 @@ export function BulkUpload(props) {
           )}
           <Row style={{ textAlign: "right" }}>
             <p style={{ color: "#a2abb6" }}>
-              Can't Import ? <a href="/needhelp">Need Help</a>
+              Can't Import ?{" "}
+              <a
+                href={process.env.PUBLIC_URL + "/bulkImportFormat.csv"}
+                download={"Bulk Import Format.csv"}
+              >
+                Download CSV format to upload in bulk
+              </a>
             </p>
           </Row>
           <Row style={{ textAlign: "center" }}>
-             <div className="buttonadd">
-             <Button
-          style={{ background: "#a600a0", border: "none" }}
-          onClick={onButtonClick}
-        >
-        Click to upload
-        </Button>        
-             </div>
+            <div className="buttonadd">
+              <Button
+                style={{ background: "#a600a0", border: "none" }}
+                onClick={onButtonClick}
+              >
+                Click to upload
+              </Button>
+            </div>
           </Row>
           <p
             style={{

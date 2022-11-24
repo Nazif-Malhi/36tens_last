@@ -124,10 +124,14 @@ const SignUp = () => {
   };
 
   const handleSignUp = () => {
-    if (firstName.length === 0 || lastName.length === 0 || mobileNumber.length === 0 || whoYouAre.length === 0) {
+    if (
+      firstName.length === 0 ||
+      lastName.length === 0 ||
+      mobileNumber.length === 0 ||
+      whoYouAre.length === 0
+    ) {
       setText_error("Feilds are Empty");
-    } 
-    else if (whoYouAre === "Indvidual") {
+    } else if (whoYouAre === "Indvidual") {
       if (email.length > 0 && password.length > 0) {
         request_for_register();
       } else {
@@ -139,9 +143,13 @@ const SignUp = () => {
       if (email.length > 0 && password.length > 0) {
         request_for_register();
       } else {
-        if (companyName.length === 0 || email.length === 0 || password.length === 0 ) {
+        if (
+          companyName.length === 0 ||
+          email.length === 0 ||
+          password.length === 0
+        ) {
           setText_error("Feilds are Empty");
-        } 
+        }
       }
     }
   };
