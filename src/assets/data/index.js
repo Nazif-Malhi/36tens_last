@@ -7,3 +7,6 @@ export {
   industries,
   companyTypeData,
 } from "./DropDownData";
+
+export { competencies_data } from "./OrdinalCompetencies";
+export * from "./Database";

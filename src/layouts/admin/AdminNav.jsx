@@ -89,11 +89,10 @@ const AdminNav = () => {
 
   const handleProfile = () => {
     navigate("profile");
-    handleClose();
+    setAnchorEl(null);
   };
   const handleLogout = () => {
-    handleClose();
-
+    setAnchorEl(null);
     localStorage.clear();
     navigate("/36tens");
     window.location.reload();

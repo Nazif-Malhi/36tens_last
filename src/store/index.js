@@ -5,6 +5,7 @@ export {
   user_data_clearErrors,
   getUserData,
   updateUserData,
+  deleteUserData,
   register,
   user_reg_clearErrors,
   changePassword,

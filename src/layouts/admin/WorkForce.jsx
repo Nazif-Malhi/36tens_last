@@ -13,7 +13,12 @@ import {
 } from "../../components";
 
 import { useDispatch, useSelector } from "react-redux";
-import { get_Employees } from "../../store";
+import {
+  deleteUserData,
+  get_Employees,
+  register,
+  updateUserData,
+} from "../../store";
 import { employees_clearErrors } from "../../store/Actions/employees_actions";
 
 const WorkforceContainer = styled.div`
@@ -78,32 +83,6 @@ const WorkforceContainer = styled.div`
   }
 `;
 
-const handleEdit = (
-  id,
-  first_name,
-  last_name,
-  department,
-  designation,
-  contact_num,
-  group,
-  email
-) => {
-  const data = {
-    id: id,
-    first_name: first_name,
-    last_name: last_name,
-    department: department,
-    designation: designation,
-    contact_num: contact_num,
-    group: group,
-    email: email,
-  };
-  console.log(data);
-};
-const handleDelete = (id) => {
-  console.log(id);
-};
-
 const WorkForce = ({ data }) => {
   const dispatch = useDispatch();
   const { employees, loading, employees_error } = useSelector(
@@ -116,6 +95,10 @@ const WorkForce = ({ data }) => {
 
   const [isShowAddEmployeeModal, setShowAddEmployeeModal] = useState(false);
   const [isBulkUpload, setBulkUpload] = useState(false);
+
+  const [editValue, setEditValue] = useState([]);
+  const [trigger, setTrigger] = useState("");
+  const [id, setId] = useState(0);
 
   const filter = () => {
     const result = employees.filter((list) => {
@@ -132,13 +115,59 @@ const WorkForce = ({ data }) => {
     if (isShowAddEmployeeModal === false && isBulkUpload === false) {
       dispatch(get_Employees(data.company_name));
     }
-  }, [dispatch, isShowAddEmployeeModal, isBulkUpload]);
+  }, [dispatch]);
 
   useEffect(() => {
-    if (!loading) {
-      setFilterResults(employees);
+    // if (!loading) {
+    setFilterResults(employees);
+    // }
+  }, [
+    employees,
+    //, loading
+  ]);
+
+  const handleEdit = (
+    id,
+    first_name,
+    last_name,
+    department,
+    designation,
+    contact_num,
+    group,
+    email
+  ) => {
+    const data = {
+      id: id,
+      first_name: first_name,
+      last_name: last_name,
+      department: department,
+      designation: designation,
+      contact_num: contact_num,
+      group: group,
+      email: email,
+    };
+    setTrigger("isEdit");
+    setEditValue(data);
+    setId(id);
+    setShowAddEmployeeModal(true);
+  };
+  const handleDelete = (id) => {
+    dispatch(deleteUserData(id));
+  };
+
+  const handleCallBackModal = (e) => {
+    if (e[1] === "isAdd") {
+      dispatch(register(e[0]));
+      setShowAddEmployeeModal(false);
+      setTrigger("");
+      setId(-1);
+    } else if (e[1] === "isEdit") {
+      dispatch(updateUserData(e[0], e[2]));
+      setShowAddEmployeeModal(false);
+      setTrigger("");
+      setId(-1);
     }
-  }, [employees, loading]);
+  };
 
   return (
     <WorkforceContainer>
@@ -153,6 +182,7 @@ const WorkForce = ({ data }) => {
               width="180px"
               height="40px"
               onClick={() => {
+                setTrigger("isAdd");
                 setShowAddEmployeeModal(true);
               }}
             >
@@ -229,7 +259,11 @@ const WorkForce = ({ data }) => {
         onHide={() => {
           setShowAddEmployeeModal(false);
         }}
+        trigger={trigger}
+        value_input={editValue}
+        id={id}
         company_name={data.company_name}
+        onHandleCallBack={handleCallBackModal}
       />
       <BulkUpload
         show={isBulkUpload}

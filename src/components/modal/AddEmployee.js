@@ -15,6 +15,7 @@ import {
   get_Designation,
   getGroups,
   register,
+  updateUserData,
 } from "../../store";
 
 function AddEmployee({ onHandleCallBack, ...props }) {
@@ -52,13 +53,31 @@ function AddEmployee({ onHandleCallBack, ...props }) {
 
   useEffect(() => {
     if (props.trigger === "isEdit") {
-      setFirstName(props.value_input.name);
-      setLastName(props.value_input.name);
-      setDepartment_Input(props.value_input.name);
-      setDesignation(props.value_input.name);
-      setGroup(props.value_input.name);
-      setEmail(props.value_input.name);
-      setPhone(props.value_input.name);
+      setFirstName(
+        props.value_input.first_name === null
+          ? ""
+          : props.value_input.first_name
+      );
+      setLastName(
+        props.value_input.last_name === null ? "" : props.value_input.last_name
+      );
+      setDepartment_Input(
+        props.value_input.department === null
+          ? ""
+          : props.value_input.department
+      );
+      setDesignation(
+        props.value_input.designation === null
+          ? ""
+          : props.value_input.designation
+      );
+      setGroup(props.value_input.group === null ? "" : props.value_input.group);
+      setEmail(props.value_input.email === null ? "" : props.value_input.email);
+      setPhone(
+        props.value_input.contact_num === null
+          ? ""
+          : props.value_input.contact_num
+      );
     } else {
       emptyFeilds();
     }
@@ -66,7 +85,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
   }, [props.value_input, props.trigger]);
 
   const addEmployee = () => {
-    const signup_payoad = {
+    const update_payoad = {
       first_name: firstName,
       last_name: lastName,
       contact_num: phone,
@@ -99,8 +118,19 @@ function AddEmployee({ onHandleCallBack, ...props }) {
       designation.length > 0 &&
       group.length > 0
     ) {
-      dispatch(register(signup_payoad));
-      handleOnClose();
+      switch (props.trigger) {
+        case "isAdd":
+          console.log("add");
+          return [update_payoad, "isAdd"];
+        // dispatch(register(update_payoad));
+        case "isEdit":
+          console.log("isEdit");
+          // dispatch(updateUserData(update_payoad, props.id));
+          return [update_payoad, "isEdit", props.id];
+        // dispatch(register(signup_payoad));
+        default:
+          break;
+      }
     }
   };
   const handleOnClose = () => {
@@ -127,7 +157,8 @@ function AddEmployee({ onHandleCallBack, ...props }) {
         }}
       >
         <Modal.Title id="contained-modal-title-vcenter">
-          Add New Employee
+          {props.trigger === "isEdit" ? "Update" : "Add New"}
+          Employee
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="show-grid">
@@ -310,10 +341,10 @@ function AddEmployee({ onHandleCallBack, ...props }) {
         <Button
           style={{ background: "#a600a0", border: "none" }}
           onClick={() => {
-            addEmployee();
+            onHandleCallBack(addEmployee());
           }}
         >
-          Add
+          {props.trigger === "isEdit" ? "Update" : "Add"}
         </Button>
       </Modal.Footer>
     </Modal>

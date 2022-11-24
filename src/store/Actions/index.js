@@ -6,6 +6,7 @@ export { register, user_reg_clearErrors } from "./user_register_actions";
 export {
   getUserData,
   updateUserData,
+  deleteUserData,
   user_data_clearErrors,
 } from "./user_actions";
 

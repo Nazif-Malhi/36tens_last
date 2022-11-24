@@ -7,11 +7,10 @@ import {
   Dashboard,
   Masters,
   Profile,
+  Questionier,
   WorkForce,
-  //   Surveys,
-  //   Competencies,
-  //   Questionier,
-  //
+  Surveys,
+  Competencies,
 } from "../layouts/admin";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -59,15 +58,9 @@ const Admin = () => {
             </>
           )}
           <Route path="/master/*" element={<Masters />} />
-
-          {/* {updated && (
-              
-            )}
-            <Route path="survey" element={<Surveys />} />
-            <Route path="competencies" element={<Competencies />} />
-            <Route path="questionier" element={<Questionier />} />
-            
-             */}
+          <Route path="survey" element={<Surveys />} />
+          <Route path="competencies" element={<Competencies />} />
+          <Route path="questionier" element={<Questionier />} />
         </Routes>
       </MasterWrapper>
     </Master>
