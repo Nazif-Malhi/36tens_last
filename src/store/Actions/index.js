@@ -1,4 +1,4 @@
-export { get_Employees } from "./employees_actions";
+export { get_Employees, add_employee } from "./employees_actions";
 export { add_BulkAdd } from "./employees_import_action";
 export { login, login_clearErrors } from "./user_login_auth_actions";
 export { register, user_reg_clearErrors } from "./user_register_actions";

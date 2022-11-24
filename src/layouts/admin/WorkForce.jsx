@@ -19,7 +19,7 @@ import {
   register,
   updateUserData,
 } from "../../store";
-import { employees_clearErrors } from "../../store/Actions/employees_actions";
+import { add_employee, employees_clearErrors } from "../../store/Actions/employees_actions";
 
 const WorkforceContainer = styled.div`
   width: 100%;
@@ -112,9 +112,8 @@ const WorkForce = ({ data }) => {
       console.log(employees_error);
       dispatch(employees_clearErrors());
     }
-    if (isShowAddEmployeeModal === false && isBulkUpload === false) {
       dispatch(get_Employees(data.company_name));
-    }
+    
   }, [dispatch]);
 
   useEffect(() => {
@@ -157,7 +156,8 @@ const WorkForce = ({ data }) => {
 
   const handleCallBackModal = (e) => {
     if (e[1] === "isAdd") {
-      dispatch(register(e[0]));
+      // dispatch(register(e[0]));
+      dispatch(add_employee(e[0], data.company_name))
       setShowAddEmployeeModal(false);
       setTrigger("");
       setId(-1);

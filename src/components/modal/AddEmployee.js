@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import { TextField, MenuItem, FormControl, Select } from "@mui/material";
 import { Row, Col, Modal, Container, Button } from "react-bootstrap";
 
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
 import { useDispatch, useSelector } from "react-redux";
 import {
   department_clearErrors,
@@ -17,6 +13,7 @@ import {
   register,
   updateUserData,
 } from "../../store";
+import { is_emailValid } from "../../utils";
 
 function AddEmployee({ onHandleCallBack, ...props }) {
   const dispatch = useDispatch();
@@ -36,6 +33,8 @@ function AddEmployee({ onHandleCallBack, ...props }) {
   const [designation, setDesignation] = useState("");
   const [group, setGroup] = useState("");
   const [phone, setPhone] = useState("");
+  const [email_validation_error, setEmail_validation_error] = useState(false);
+
 
   const [text_error, setText_error] = useState("");
 
@@ -118,19 +117,22 @@ function AddEmployee({ onHandleCallBack, ...props }) {
       designation.length > 0 &&
       group.length > 0
     ) {
+      if(email_validation_error){
+        setText_error("Email not valid");
+
+      }
+      else{
       switch (props.trigger) {
         case "isAdd":
           console.log("add");
           return [update_payoad, "isAdd"];
-        // dispatch(register(update_payoad));
         case "isEdit":
           console.log("isEdit");
-          // dispatch(updateUserData(update_payoad, props.id));
           return [update_payoad, "isEdit", props.id];
-        // dispatch(register(signup_payoad));
         default:
           break;
       }
+    }
     }
   };
   const handleOnClose = () => {
@@ -148,6 +150,19 @@ function AddEmployee({ onHandleCallBack, ...props }) {
     setEmail("");
     setPhone("");
   };
+
+  const handleEmail_Validation = (email) => {
+    setEmail(email);
+    if (is_emailValid(email)) {
+      setEmail_validation_error(false);
+      setText_error("");
+    } else {
+      setEmail_validation_error(true);
+      setText_error("Email not valid");
+    }
+  };
+
+
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" size="lg">
       <Modal.Header
@@ -189,54 +204,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
               />
             </Col>
           </Row>
-          <Row style={{ marginBottom: "10px" }}>
-            <Col xs={8} md={6}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="Date of Joining"
-                  value={date}
-                  onChange={(e) => {
-                    setDate(e);
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      size="small"
-                      style={{ width: "100%" }}
-                      disabled
-                    />
-                  )}
-                />
-              </LocalizationProvider>
-            </Col>
-            <Col xs={8} md={6}>
-              <FormControl
-                sx={{ width: "100%" }}
-                size="small"
-                style={{ background: "white" }}
-              >
-                <Select
-                  value={department_input}
-                  onChange={(e) => {
-                    setDepartment_Input(e.target.value);
-                  }}
-                  displayEmpty
-                  inputProps={{ "aria-label": "Without label" }}
-                >
-                  <MenuItem value="">
-                    <em>Department</em>
-                  </MenuItem>
-                  {department.map((val, index) => {
-                    return (
-                      <MenuItem id={index} value={val.title} key={index}>
-                        {val.title}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Col>
-          </Row>
+          
           <Row style={{ marginBottom: "10px" }}>
             <Col xs={8} md={6}>
               <TextField
@@ -246,7 +214,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                 fullWidth
                 value={email}
                 onChange={(e) => {
-                  setEmail(e.target.value);
+                  handleEmail_Validation(e.target.value);
                 }}
               />
             </Col>
@@ -281,6 +249,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
           <Row style={{ marginBottom: "10px" }}>
             <Col xs={8} md={6}>
               <TextField
+                type={"number"}
                 id="outlined-name"
                 label="Phone Number"
                 size="small"
@@ -309,6 +278,36 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                     <em>Group</em>
                   </MenuItem>
                   {groups.map((val, index) => {
+                    return (
+                      <MenuItem id={index} value={val.title} key={index}>
+                        {val.title}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Col>
+          </Row>
+          <Row style={{ marginBottom: "10px" }}>
+           
+            <Col xs={8} md={6}>
+              <FormControl
+                sx={{ width: "100%" }}
+                size="small"
+                style={{ background: "white" }}
+              >
+                <Select
+                  value={department_input}
+                  onChange={(e) => {
+                    setDepartment_Input(e.target.value);
+                  }}
+                  displayEmpty
+                  inputProps={{ "aria-label": "Without label" }}
+                >
+                  <MenuItem value="">
+                    <em>Department</em>
+                  </MenuItem>
+                  {department.map((val, index) => {
                     return (
                       <MenuItem id={index} value={val.title} key={index}>
                         {val.title}

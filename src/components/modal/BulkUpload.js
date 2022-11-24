@@ -31,6 +31,9 @@ const Upload = styled.div`
   h6 {
     color: #a2abb6;
   }
+  .buttonadd{
+    width:40%
+  }
 `;
 export function BulkUpload(props) {
   const [csv_file, setCsv_File] = useState(null);
@@ -87,7 +90,6 @@ export function BulkUpload(props) {
             <Upload
               onDragOver={handleDragOver}
               onDrop={handleDrop}
-              onClick={onButtonClick}
             >
               <AiOutlineUpload
                 style={{ fontSize: "5.7rem", color: "a2abb6" }}
@@ -113,6 +115,16 @@ export function BulkUpload(props) {
             <p style={{ color: "#a2abb6" }}>
               Can't Import ? <a href="/needhelp">Need Help</a>
             </p>
+          </Row>
+          <Row style={{ textAlign: "center" }}>
+             <div className="buttonadd">
+             <Button
+          style={{ background: "#a600a0", border: "none" }}
+          onClick={onButtonClick}
+        >
+        Click to upload
+        </Button>        
+             </div>
           </Row>
           <p
             style={{

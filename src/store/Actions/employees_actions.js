@@ -29,6 +29,34 @@ export const get_Employees = (company) => async (dispatch) => {
     });
   }
 };
+
+
+export const add_employee = (register_payload, company) => async (dispatch) => {
+  try {
+    dispatch({
+      type: EMPLOYEES_REQUEST,
+    });
+    await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/users/`,
+      register_payload
+    );
+    const employees = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/user-get/?`,
+      {
+        params: { company_name: company },
+      }
+    );
+    dispatch({
+      type: EMPLOYEES_SUCCESS,
+      payload: employees,
+    });
+  } catch (error) {
+    dispatch({
+      type: EMPLOYEES_FAIL,
+      payload: error.response,
+    });
+  }
+};
 export const employees_clearErrors = () => async (dispatch) => {
   dispatch({
     type: EMPLOYEES_CLEAR_ERRORS,

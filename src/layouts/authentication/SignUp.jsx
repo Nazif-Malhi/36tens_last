@@ -124,35 +124,24 @@ const SignUp = () => {
   };
 
   const handleSignUp = () => {
-    if (firstName.length === 0) {
+    if (firstName.length === 0 || lastName.length === 0 || mobileNumber.length === 0 || whoYouAre.length === 0) {
       setText_error("Feilds are Empty");
-    } else if (lastName.length === 0) {
-      setText_error("Feilds are Empty");
-    } else if (mobileNumber.length === 0) {
-      setText_error("Feilds are Empty");
-    } else if (whoYouAre.length === 0) {
-      setText_error("Feilds are Empty");
-    } else if (whoYouAre === "indvidual") {
+    } 
+    else if (whoYouAre === "Indvidual") {
       if (email.length > 0 && password.length > 0) {
         request_for_register();
       } else {
-        if (email.length === 0) {
-          setText_error("Feilds are Empty");
-        } else if (password.length === 0) {
+        if (email.length === 0 || password.length === 0) {
           setText_error("Feilds are Empty");
         }
       }
-    } else if (whoYouAre === "company") {
+    } else if (whoYouAre === "Company") {
       if (email.length > 0 && password.length > 0) {
         request_for_register();
       } else {
-        if (companyName.length === 0) {
+        if (companyName.length === 0 || email.length === 0 || password.length === 0 ) {
           setText_error("Feilds are Empty");
-        } else if (email.length === 0) {
-          setText_error("Feilds are Empty");
-        } else if (password.length === 0) {
-          setText_error("Feilds are Empty");
-        }
+        } 
       }
     }
   };
@@ -223,13 +212,13 @@ const SignUp = () => {
             <MenuItem value="">
               <em style={{ fontStyle: "unset" }}>Who are you ?</em>
             </MenuItem>
-            <MenuItem value={"indvidual"}>Indvidual</MenuItem>
-            <MenuItem value={"company"}>Company</MenuItem>
+            <MenuItem value={"Indvidual"}>Indvidual</MenuItem>
+            <MenuItem value={"Company"}>Company</MenuItem>
           </Select>
         </Row>
         <Row className="center-row">
           <TextField
-            disabled={whoYouAre === "company" ? false : true}
+            disabled={whoYouAre === "Company" ? false : true}
             label={"Company Name"}
             placeholder={"Enter your Company Name"}
             size="small"
@@ -243,21 +232,21 @@ const SignUp = () => {
         <Row className="center-row">
           <TextField
             disabled={
-              whoYouAre === "indvidual" || whoYouAre === "company"
+              whoYouAre === "Indvidual" || whoYouAre === "Company"
                 ? false
                 : true
             }
             label={
-              whoYouAre === "indvidual"
+              whoYouAre === "Indvidual"
                 ? "Email"
-                : whoYouAre === "company"
+                : whoYouAre === "Company"
                 ? "Company Email"
                 : "Company Email"
             }
             placeholder={
-              whoYouAre === "indvidual"
+              whoYouAre === "Indvidual"
                 ? "Enter your Email"
-                : whoYouAre === "company"
+                : whoYouAre === "Company"
                 ? "Enter your Company Email"
                 : null
             }

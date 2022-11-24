@@ -1,11 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import { BsPersonFill } from "react-icons/bs";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import { Nav, NavLink, NavMenu } from "../../components";
 import { Logo } from "../../assets";
+import Dropdown from 'react-bootstrap/Dropdown';
+import Form from 'react-bootstrap/Form';
 
 const Navbar = styled.div`
 background: #f7f8fa;
@@ -36,7 +36,9 @@ z-index:100;
     text-align: center;
     justify-content: center;
     align-items: center;
-    .button {
+    .dropdown-toggle {
+      border:none;
+      background: #f7f8fa;
       width: 160px;
       height: 100%;
       align-items: center;
@@ -45,29 +47,33 @@ z-index:100;
       display: flex;
       justify-content: center;
       cursor: pointer;
+      :hover{
+        border:1px solid #3b4048;
+            }
       p {
         margin: 0px;
-        color: #c3cad9;
-        font-weight: 500;
+        color:#3b4048;        font-weight: 500;
+        
       }
     }
-    .button:hover {
-      background-color: #34485f;
+    .dropdown-menue{
+      
     }
+
 
     .circle {
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      background-color: #c3cad9;
-      border-radius: 50%;
+      background:#3b4048;      border-radius: 50%;
       width: 40px;
       height: 40px;
       text-align: center;
       color: white;
       font-size: small;
       margin: 5px;
+      
     }
     
 `;
@@ -78,21 +84,20 @@ const AltNavLink = styled(NavLink)`
 
 const AdminNav = () => {
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  //  const [show, setShow] = useState(false);
+  //  const handleClick = (event) => {
+  //    setShow(true);
+  //  };
+  //  const handleClose = () => {
+  //    setShow(false);
+  //  };
 
   const handleProfile = () => {
+
     navigate("profile");
-    setAnchorEl(null);
+
   };
   const handleLogout = () => {
-    setAnchorEl(null);
     localStorage.clear();
     navigate("/36tens");
     window.location.reload();
@@ -110,27 +115,37 @@ const AdminNav = () => {
         </Nav>
       </div>
       <div className="right">
-        <div className="button" onClick={handleClick}>
-          <div className="circle">
+        {/* <div className="button"> */}
+        <Dropdown>
+      <Dropdown.Toggle variant="success" id="dropdown-basic">
+      <div className="circle">
             <BsPersonFill />
           </div>
           <div className="text">
             <p>Jan Doe</p>
           </div>
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={handleProfile}>Profile</Dropdown.Item>
+        <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+          
         </div>
-      </div>
-      <Menu
+      {/* </div> */}
+      
+      {/* <Menu
         id="basic-menu"
-        anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleProfile}>Profile</MenuItem>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-      </Menu>
+        <MenuItem onClick={() =>{handleProfile()}}>Profile</MenuItem>
+        <MenuItem onClick={() => {handleLogout()}}>Logout</MenuItem>
+      </Menu> */}
     </Navbar>
   );
 };

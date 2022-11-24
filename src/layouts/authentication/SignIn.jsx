@@ -9,8 +9,10 @@ import { CustomButton } from "../../components";
 import { is_emailValid } from "../../utils";
 
 import { useDispatch, useSelector } from "react-redux";
-import { login, login_clearErrors, user_data_clearErrors } from "../../store";
+import { getUserData, login, login_clearErrors, user_data_clearErrors } from "../../store";
 import { useNavigate } from "react-router-dom";
+import Spinner from 'react-bootstrap/Spinner';
+
 
 const LogInWrapper = styled.div`
   width: 35%;
@@ -56,14 +58,16 @@ const SignIn = () => {
   const { isAuthenticated, user_auth_login_error, token_set } = useSelector(
     (state) => state.user_auth_login
   );
-  const { user_last_login, user_data_error } = useSelector(
+  const { user_last_login, user_data_error, updated } = useSelector(
     (state) => state.user_data
   );
+
 
   const [email_validation_error, setEmail_validation_error] = useState(false);
   const [text_error, setText_error] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [spinner_trigger, setSpinner_trigger] = useState(false);
 
   const handleEmail_Validation = (email) => {
     setEmail(email);
@@ -76,48 +80,53 @@ const SignIn = () => {
     }
   };
   const handleAuth = () => {
+    if(!spinner_trigger){
+      console.log("auth")
+    setSpinner_trigger(true);
     const login_Payload = {
       email: email,
       password: password,
     };
-    if (email.length === 0) {
-      setText_error("Email feild is empty");
+    if (email.length === 0 || password.length === 0) {
+      setText_error("Feilds are empty");
     } else if (email_validation_error) {
       setText_error("Email not valid");
-    } else if (password.length === 0) {
-      setText_error("Password feild is empty");
-    } else {
+    } else if(email.length > 0 && password.length > 0 && !email_validation_error){
       setText_error("");
-
       dispatch(login(login_Payload));
+       
     }
-  };
-  useEffect(() => {
-    if (user_data_error) {
-      console.log(user_data_error);
-      dispatch(user_data_clearErrors);
+  }
+   };
+   useEffect(() => {
+    if(isAuthenticated){
+    dispatch(getUserData());
     }
-    if (user_auth_login_error === "Bad Request") {
-      setText_error("Email or Password is incorrect");
-      setPassword("");
-      dispatch(login_clearErrors());
-    }
-    if (isAuthenticated && token_set) {
-      if (user_last_login === null) {
-        navigate("/36tens/admin/profile");
-      } else {
-        navigate("/36tens/admin/dashboard");
+    else if (user_auth_login_error === "Bad Request") {
+        setText_error("Email or Password is incorrect");
+        setPassword("");
+        setSpinner_trigger(false)
       }
-    }
-  }, [
-    dispatch,
-    user_auth_login_error,
-    isAuthenticated,
-    token_set,
-    user_last_login,
-    user_data_error,
-    navigate,
-  ]);
+    
+   }, [dispatch, isAuthenticated, user_auth_login_error])
+
+   useEffect(() => {
+if(updated){
+  setSpinner_trigger(false);
+  console.log(user_last_login);
+  if(user_last_login === null){
+    navigate("/36tens/admin/profile");
+  }
+  else{
+    if(user_last_login.length > 1){
+    navigate("/36tens/admin/dashboard");
+  }
+}
+
+}
+   }, [updated])
+
+
 
   return (
     <StyledContainer>
@@ -160,7 +169,7 @@ const SignIn = () => {
               handleAuth();
             }}
           >
-            Login
+            {spinner_trigger ? <Spinner animation="border" variant="light" /> : "Login"}
           </CustomButton>
         </Row>
         <Row style={{ marginTop: "20px" }}>
