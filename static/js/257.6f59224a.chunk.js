@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunk_36tens=self.webpackChunk_36tens||[]).push([[257],{8257:function(e,s,n){n.r(s);n(2791);var t=n(7689),u=n(5020),a=n(184);s.default=function(){return(0,a.jsxs)(t.Z5,{children:[(0,a.jsx)(t.AW,{path:"login",element:(0,a.jsx)(u.cL,{})}),(0,a.jsx)(t.AW,{path:"signup",element:(0,a.jsx)(u.Qb,{})}),(0,a.jsx)(t.AW,{path:"forget-pasword",element:(0,a.jsx)(u.u5,{})})]})}}}]);
+//# sourceMappingURL=257.6f59224a.chunk.js.map
