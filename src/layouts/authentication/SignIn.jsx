@@ -55,7 +55,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isAuthenticated, user_auth_login_error, token_set } = useSelector(
+  const { isAuthenticated, user_auth_login_error, token_set, loading } = useSelector(
     (state) => state.user_auth_login
   );
   const { user_last_login, user_data_error, updated } = useSelector(
@@ -102,13 +102,18 @@ const SignIn = () => {
     if(isAuthenticated){
     dispatch(getUserData());
     }
-    else if (user_auth_login_error === "Bad Request") {
-        setText_error("Email or Password is incorrect");
-        setPassword("");
-        setSpinner_trigger(false)
+    else if(isAuthenticated === false && loading === false){
+      if(user_auth_login_error){
+      setText_error(user_auth_login_error.data.non_field_errors[0]);
       }
+      else{
+        setText_error("Check your connectivity");
+
+      }
+      setSpinner_trigger(false);
+    }
     
-   }, [dispatch, isAuthenticated, user_auth_login_error])
+   }, [dispatch, isAuthenticated, user_auth_login_error, loading])
 
    useEffect(() => {
 if(updated){
@@ -122,7 +127,6 @@ if(updated){
     navigate("/36tens/admin/dashboard");
   }
 }
-
 }
    }, [updated])
 
@@ -156,7 +160,7 @@ if(updated){
           />
         </Row>
         <Row className="center-m-r">
-          <p style={{ color: text_error.length === 0 ? "white" : "red" }}>
+          <p style={{ color:  "red" }}>
             {text_error}
           </p>
         </Row>

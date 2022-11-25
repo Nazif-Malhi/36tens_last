@@ -5,6 +5,7 @@ import { Row, Col, Button, Container, Modal } from "react-bootstrap";
 
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserData, user_data_clearErrors } from "../../store";
+import { isNumber } from "../../utils";
 
 function EditProfile(props) {
   const dispatch = useDispatch();
@@ -104,7 +105,7 @@ function EditProfile(props) {
                 fullWidth
                 value={contact}
                 onChange={(e) => {
-                  setContact(e.target.value);
+                  setContact(isNumber(e.target.value));
                 }}
               />
             </Col>

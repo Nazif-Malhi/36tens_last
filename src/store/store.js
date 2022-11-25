@@ -11,6 +11,7 @@ import {
   designation_reducer,
   employees_reducer,
   groups_reducer,
+  update_emp_reducer,
   user_auth_login_reducer,
   user_data_reducer,
   user_regiser_reducer,
@@ -29,6 +30,7 @@ const reducer = combineReducers({
   competency_statements: competency_statments_reducer,
   employees: employees_reducer,
   bulk_users: bulk_user_reducer,
+  update_emp:update_emp_reducer,
 });
 let initialState = {};
 

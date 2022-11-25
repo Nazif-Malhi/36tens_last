@@ -14,9 +14,10 @@ import {
   updateUserData,
   add_employee,
   user_reg_clearErrors,
+  update_employee,
   get_Employees,
 } from "../../store";
-import { is_emailValid } from "../../utils";
+import { isNumber, is_emailValid } from "../../utils";
 
 function AddEmployee({ onHandleCallBack, ...props }) {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
   const { user_reg, user_reg_error, is_reg } = useSelector(
     (state) => state.user_reg
   );
+  const {update_emp, update_emp_error, is_updated_emp} = useSelector( (state) => state.update_emp)
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [date, setDate] = useState("");
@@ -130,10 +132,8 @@ function AddEmployee({ onHandleCallBack, ...props }) {
             dispatch(register(update_payoad));
             break;
           case "isEdit":
-            dispatch(updateUserData(update_payoad, props.id));
+            dispatch(update_employee(update_payoad, props.id));
             break;
-          // // if()
-          // // handleOnClose()
           default:
             break;
         }
@@ -142,7 +142,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
   };
   useEffect(() => {
     if (!is_reg) {
-      if (user_reg_error !== undefined) {
+      if (user_reg_error !== undefined ) {
         setText_error(user_reg_error);
       }
     } else {
@@ -150,6 +150,15 @@ function AddEmployee({ onHandleCallBack, ...props }) {
       handleOnClose();
     }
   }, [is_reg]);
+
+  useEffect(() => {
+    if(!is_updated_emp){
+      setText_error(update_emp_error);
+    } else{
+      dispatch(get_Employees(props.company_name));
+      handleOnClose();
+    }
+  }, [is_updated_emp]);
 
   const handleOnClose = () => {
     emptyFeilds();
@@ -264,14 +273,14 @@ function AddEmployee({ onHandleCallBack, ...props }) {
           <Row style={{ marginBottom: "10px" }}>
             <Col xs={8} md={6}>
               <TextField
-                type={"number"}
+                type={"text"}
                 id="outlined-name"
                 label="Phone Number"
                 size="small"
                 fullWidth
                 value={phone}
                 onChange={(e) => {
-                  setPhone(e.target.value);
+                  setPhone(isNumber(e.target.value));
                 }}
               />
             </Col>
@@ -334,7 +343,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
           </Row>
           <p
             style={{
-              color: text_error.length === 0 ? "white" : "red",
+              color: "red",
               textAlign: "center",
             }}
           >

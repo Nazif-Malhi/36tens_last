@@ -42,3 +42,12 @@ export const is_filter_to_add_in_statment = (
     return true;
   }
 };
+
+
+export const first_letter_capitalize = (value) => {
+  return value.charAt(0).toUpperCase()+value.slice(1);
+}
+
+export const isNumber = (value) => {
+  return value.replace(/\D/g,'')
+}

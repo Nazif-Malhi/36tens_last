@@ -16,11 +16,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteUserData,
   get_Employees,
-  register,
-  updateUserData,
+  
 } from "../../store";
 import {
-  add_employee,
   employees_clearErrors,
 } from "../../store/Actions/employees_actions";
 
@@ -122,7 +120,6 @@ const WorkForce = ({ data }) => {
     setFilterResults(employees);
   }, [
     employees,
-    //, loading
   ]);
 
   const handleEdit = (
@@ -154,21 +151,6 @@ const WorkForce = ({ data }) => {
     dispatch(deleteUserData(id));
   };
 
-  const handleCallBackModal = (e) => {
-    if (e !== undefined) {
-      if (e[1] === "isAdd") {
-        dispatch(add_employee(e[0], data.company_name));
-        setShowAddEmployeeModal(false);
-        setTrigger("");
-        setId(-1);
-      } else if (e[1] === "isEdit") {
-        dispatch(updateUserData(e[0], e[2]));
-        setShowAddEmployeeModal(false);
-        setTrigger("");
-        setId(-1);
-      }
-    }
-  };
 
   return (
     <WorkforceContainer>
@@ -264,7 +246,6 @@ const WorkForce = ({ data }) => {
         value_input={editValue}
         id={id}
         company_name={data.company_name}
-        // onHandleCallBack={handleCallBackModal}
       />
       <BulkUpload
         show={isBulkUpload}

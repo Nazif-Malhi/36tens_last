@@ -4,6 +4,10 @@ import {
   EMPLOYEES_SUCCESS,
   EMPLOYEES_FAIL,
   EMPLOYEES_CLEAR_ERRORS,
+  UPDATE_EMPLOYEES_CLEAR_ERRORS,
+  UPDATE_EMPLOYEES_FAIL,
+  UPDATE_EMPLOYEES_REQUEST,
+  UPDATE_EMPLOYEES_SUCCESS,
 } from "../Constants/employees_constants";
 
 export const get_Employees = (company) => async (dispatch) => {
@@ -30,29 +34,24 @@ export const get_Employees = (company) => async (dispatch) => {
   }
 };
 
-export const add_employee = (register_payload, company) => async (dispatch) => {
+export const update_employee = (update_payload, id) => async (dispatch) => {
   try {
     dispatch({
-      type: EMPLOYEES_REQUEST,
+      type: UPDATE_EMPLOYEES_REQUEST,
     });
-    //const employees = await axios.post(
-    //   `${process.env.REACT_APP_API_URL}/api/users/`,
-    //   register_payload
-    // );
-    // console.log(employees);
-    const employees = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/user-get/?`,
-      {
-        params: { company_name: company },
-      }
+
+    const update_empl = await axios.patch(
+      `${process.env.REACT_APP_API_URL}/api/users/${id}/`,
+      update_payload
     );
+    
     dispatch({
-      type: EMPLOYEES_SUCCESS,
-      payload: employees,
+      type: UPDATE_EMPLOYEES_SUCCESS,
+      payload: update_empl,
     });
   } catch (error) {
     dispatch({
-      type: EMPLOYEES_FAIL,
+      type: UPDATE_EMPLOYEES_FAIL,
       payload: error.response,
     });
   }
@@ -62,3 +61,9 @@ export const employees_clearErrors = () => async (dispatch) => {
     type: EMPLOYEES_CLEAR_ERRORS,
   });
 };
+
+export const update_emp_clearErrors = () => async(dispatch) => {
+  dispatch({
+    type:UPDATE_EMPLOYEES_CLEAR_ERRORS,
+  })
+}

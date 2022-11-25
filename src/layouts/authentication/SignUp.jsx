@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { CustomButton } from "../../components";
 import { Custom, Logo, Standard } from "../../assets";
-import { is_emailValid } from "../../utils";
+import { first_letter_capitalize, isNumber, is_emailValid } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { register, user_reg_clearErrors } from "../../store/Actions";
 
@@ -35,7 +35,6 @@ const SignUpWrapper = styled.div`
     width: 80%;
     min-width: 120px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-    // background: #d4dce4;
     margin: 10px;
     border-radius: 10px;
     .packageheader {
@@ -166,6 +165,8 @@ const SignUp = () => {
     }
   }, [dispatch, user_reg_error, status, navigate]);
 
+
+
   return (
     <StyledContainer signup>
       <SignUpWrapper>
@@ -179,7 +180,7 @@ const SignUp = () => {
             size="small"
             value={firstName}
             onChange={(e) => {
-              setFirstName(e.target.value);
+              setFirstName(first_letter_capitalize(e.target.value));
             }}
           />
         </Row>
@@ -190,19 +191,19 @@ const SignUp = () => {
             size="small"
             value={lastName}
             onChange={(e) => {
-              setLastName(e.target.value);
+              setLastName(first_letter_capitalize(e.target.value));
             }}
           />
         </Row>
         <Row className="center-row">
           <TextField
-            type="number"
+          type="text"
             label="Mobile Number"
             placeholder="Enter Your Mobile Number"
             size="small"
             value={mobileNumber}
             onChange={(e) => {
-              setMobileNumber(e.target.value);
+              setMobileNumber(isNumber(e.target.value));
             }}
           />
         </Row>
@@ -215,7 +216,7 @@ const SignUp = () => {
             displayEmpty
             inputProps={{ "aria-label": "Without label" }}
             size="small"
-            style={{ textAlign: "left" }}
+            style={{ textAlign: "left", padding:"0px" }}
           >
             <MenuItem value="">
               <em style={{ fontStyle: "unset" }}>Who are you ?</em>
@@ -224,7 +225,7 @@ const SignUp = () => {
             <MenuItem value={"Company"}>Company</MenuItem>
           </Select>
         </Row>
-        <Row className="center-row">
+        {whoYouAre === "Company" ? <Row className="center-row">
           <TextField
             disabled={whoYouAre === "Company" ? false : true}
             label={"Company Name"}
@@ -236,7 +237,8 @@ const SignUp = () => {
               setCompanyName(e.target.value);
             }}
           />
-        </Row>
+        </Row> : null}
+        
         <Row className="center-row">
           <TextField
             disabled={
@@ -249,7 +251,7 @@ const SignUp = () => {
                 ? "Email"
                 : whoYouAre === "Company"
                 ? "Company Email"
-                : "Company Email"
+                : "Email"
             }
             placeholder={
               whoYouAre === "Indvidual"

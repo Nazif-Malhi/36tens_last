@@ -27,7 +27,7 @@ export const login = (login_payload) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: USER_AUTH_LOGIN_FAIL,
-      payload: err.response.statusText,
+      payload: err.response,
     });
   }
 };
