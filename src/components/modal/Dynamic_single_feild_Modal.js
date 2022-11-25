@@ -9,6 +9,7 @@ function SingleFeildModal({ onHandleCallBack, ...props }) {
   const [text_error, setText_error] = useState("");
 
   useEffect(() => {
+    setText_error("")
     if (props.trigger === "isEdit") {
       setValue(props.value_input);
     } else {
@@ -32,6 +33,7 @@ function SingleFeildModal({ onHandleCallBack, ...props }) {
       }
     }
   };
+
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" size="lg">

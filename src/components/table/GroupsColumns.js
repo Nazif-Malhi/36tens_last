@@ -3,7 +3,6 @@ import React from "react";
 import CustomDataTable from "./DataTable";
 
 const GroupColumns = ({ handleEdit, handleDelete, rows, pending }) => {
-  console.log(rows);
   const columns = [
     {
       name: "ID",

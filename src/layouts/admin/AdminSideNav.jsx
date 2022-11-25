@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { sideNavbar } from "../../assets";
 import { MasterOptions } from "../../components";
 
@@ -44,15 +44,30 @@ const Circle = styled(NavLink)`
 `;
 
 const AdminSideNav = () => {
+  const navigate = useNavigate();
   const [isActive, setActive] = useState("Dashboard");
   const [mastersOptionsModal, setMasterOptionsModal] = React.useState(false);
+  const [url_path_name, setUrlPathname] = useState("");
+  const [prev_active, setPrevActive] = useState("");
 
   const handleClick = (e) => {
+    setPrevActive(isActive);
     setActive(e);
     if (e === "Master") {
+      setUrlPathname(window.location.pathname);
       setMasterOptionsModal(true);
     }
   };
+
+  const handleClose = () => {
+    if(isActive=== "Master"){
+    setActive(prev_active);
+    setPrevActive("")
+    navigate(url_path_name);
+    }
+    
+    setMasterOptionsModal(false);
+  }
 
   return (
     <SideNavComponent>
@@ -74,7 +89,7 @@ const AdminSideNav = () => {
       <MasterOptions
         show={mastersOptionsModal}
         onHide={() => {
-          setMasterOptionsModal(false);
+          handleClose();
         }}
       />
     </SideNavComponent>
