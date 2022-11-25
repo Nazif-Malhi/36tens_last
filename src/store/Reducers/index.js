@@ -10,3 +10,4 @@ export { competency_name_reducer } from "./competency_name_reducer";
 export { competency_statments_reducer } from "./competency_statements_reducer";
 export { employees_reducer, update_emp_reducer } from "./employees_reducer";
 export { bulk_user_reducer } from "./employees_import_reducer";
+export {temp_user} from './temp_user_reducer'

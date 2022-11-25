@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TextField, MenuItem, FormControl, Select } from "@mui/material";
-import { Row, Col, Modal, Container, Button } from "react-bootstrap";
+import { Row, Col, Modal, Container, Button, Spinner } from "react-bootstrap";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -41,6 +41,8 @@ function AddEmployee({ onHandleCallBack, ...props }) {
   const [group, setGroup] = useState("");
   const [phone, setPhone] = useState("");
   const [email_validation_error, setEmail_validation_error] = useState(false);
+  const [spinner_trigger, setSpinner_trigger] = useState(false);
+
 
   const [text_error, setText_error] = useState("");
 
@@ -90,7 +92,9 @@ function AddEmployee({ onHandleCallBack, ...props }) {
   }, [props.value_input, props.trigger]);
 
   const addEmployee = () => {
-    setText_error("");
+    if(!spinner_trigger){
+      setSpinner_trigger(true)
+      setText_error("");
     const update_payoad = {
       first_name: firstName,
       last_name: lastName,
@@ -139,14 +143,18 @@ function AddEmployee({ onHandleCallBack, ...props }) {
         }
       }
     }
+    }
   };
   useEffect(() => {
     if (!is_reg) {
       if (user_reg_error !== undefined ) {
         setText_error(user_reg_error);
+        setSpinner_trigger(false)
+
       }
     } else {
       dispatch(get_Employees(props.company_name));
+      setSpinner_trigger(false)
       handleOnClose();
     }
   }, [is_reg]);
@@ -154,8 +162,12 @@ function AddEmployee({ onHandleCallBack, ...props }) {
   useEffect(() => {
     if(!is_updated_emp){
       setText_error(update_emp_error);
+      setSpinner_trigger(false)
+
     } else{
       dispatch(get_Employees(props.company_name));
+      setSpinner_trigger(false)
+
       handleOnClose();
     }
   }, [is_updated_emp]);
@@ -366,7 +378,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
             addEmployee();
           }}
         >
-          {props.trigger === "isEdit" ? "Update" : "Add"}
+          {spinner_trigger ? <Spinner animation="border" variant="light" /> : props.trigger === "isEdit" ? "Update" : "Add"}
         </Button>
       </Modal.Footer>
     </Modal>

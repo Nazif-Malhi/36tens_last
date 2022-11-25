@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Spinner } from "react-bootstrap";
 import TextField from "@mui/material/TextField";
 import { StyledContainer } from "./Container";
 
@@ -11,7 +11,6 @@ import { is_emailValid } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData, login, login_clearErrors, user_data_clearErrors } from "../../store";
 import { useNavigate } from "react-router-dom";
-import Spinner from 'react-bootstrap/Spinner';
 
 
 const LogInWrapper = styled.div`
@@ -81,7 +80,6 @@ const SignIn = () => {
   };
   const handleAuth = () => {
     if(!spinner_trigger){
-      console.log("auth")
     setSpinner_trigger(true);
     const login_Payload = {
       email: email,
@@ -118,7 +116,6 @@ const SignIn = () => {
    useEffect(() => {
 if(updated){
   setSpinner_trigger(false);
-  console.log(user_last_login);
   if(user_last_login === null){
     navigate("/36tens/admin/profile");
   }

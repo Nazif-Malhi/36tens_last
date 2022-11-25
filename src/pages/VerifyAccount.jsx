@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Checkmark } from "react-checkmark";
@@ -24,10 +24,24 @@ const VerifyContainer = styled.div`
 
 const VerifyAccount = () => {
   const navigate = useNavigate();
+  const [temp_user, setTempUser] = useState("")
+
+  useEffect(() => {
+    if (localStorage.getItem("temp_user") !== null) {
+      setTempUser(localStorage.getItem("temp_user"));
+  }
+  }, [])
+
+  const handleNavigate = () => {
+    if (localStorage.getItem("temp_user") !== null) {
+      localStorage.removeItem("temp_user");
+    }
+    navigate("/36tens/authentication/login");
+  }
   return (
     <VerifyContainer>
       <Checkmark size="60px" />
-      <h5>Its great ! your account has been created, John Doe</h5>
+      <h5>Its great ! your account has been created, {temp_user}</h5>
       <p>
         Please verify your account by clicking the link that has been{" "}
         <u>sent to your email</u>
@@ -40,7 +54,7 @@ const VerifyAccount = () => {
         width={"130px"}
         height={"40px"}
         onClick={() => {
-          navigate("/36tens/authentication/login");
+          handleNavigate()
         }}
       >
         Log In

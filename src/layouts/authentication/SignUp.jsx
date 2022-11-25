@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Spinner } from "react-bootstrap";
 import TextField from "@mui/material/TextField";
 import { StyledContainer } from "./Container";
 import { MenuItem, Select } from "@mui/material";
@@ -11,6 +11,7 @@ import { Custom, Logo, Standard } from "../../assets";
 import { first_letter_capitalize, isNumber, is_emailValid } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { register, user_reg_clearErrors } from "../../store/Actions";
+
 
 const SignUpWrapper = styled.div`
   width: 45%;
@@ -73,7 +74,7 @@ const SignUpWrapper = styled.div`
 const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { status, user_reg_error } = useSelector((state) => state.user_reg);
+  const { status, user_reg_error, is_reg } = useSelector((state) => state.user_reg);
   const [email_validation_error, setEmail_validation_error] = useState(false);
 
   const [whoYouAre, setWhoYouAre] = useState("");
@@ -87,6 +88,8 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
 
   const [text_error, setText_error] = useState("");
+  const [spinner_trigger, setSpinner_trigger] = useState(false);
+
 
   const handleEmail_Validation = (email) => {
     setEmail(email);
@@ -100,29 +103,33 @@ const SignUp = () => {
   };
 
   const request_for_register = () => {
-    const signup_payoad = {
-      first_name: firstName,
-      last_name: lastName,
-      contact_num: mobileNumber,
-      company_name: companyName,
-      email: email,
-      password: password,
-      type: whoYouAre,
-      package:
-        packageOfUser === "Custom"
-          ? 2
-          : packageOfUser === "Standard"
-          ? 1
-          : null,
-    };
-    if (email_validation_error) {
-      setText_error("Email not valid");
-    } else {
-      dispatch(register(signup_payoad));
+    if(!spinner_trigger){
+      setSpinner_trigger(true)
+      const signup_payoad = {
+        first_name: firstName,
+        last_name: lastName,
+        contact_num: mobileNumber,
+        company_name: companyName,
+        email: email,
+        password: password,
+        type: whoYouAre,
+        package:
+          packageOfUser === "Custom"
+            ? 2
+            : packageOfUser === "Standard"
+            ? 1
+            : null,
+      };
+      if (email_validation_error) {
+        setText_error("Email not valid");
+      } else {
+        dispatch(register(signup_payoad));
+      }
     }
   };
 
   const handleSignUp = () => {
+
     if (
       firstName.length === 0 ||
       lastName.length === 0 ||
@@ -153,16 +160,24 @@ const SignUp = () => {
     }
   };
   useEffect(() => {
-    if (user_reg_error) {
-      console.log(user_reg_error);
-      setText_error("Some thing wrong");
-      dispatch(user_reg_clearErrors());
-    }
-    if (status === "Created") {
-      navigate("/36tens/verify-email");
-    } else if (status === "Not Created") {
-      setText_error("Server down");
-    }
+      if(!is_reg){
+        if (user_reg_error !== undefined ) {
+          setText_error(user_reg_error);
+          setSpinner_trigger(false)
+        }
+      }
+      else{
+        if (status === "Created") {
+  
+          localStorage.setItem("temp_user", firstName+" "+lastName);
+          dispatch(user_reg_clearErrors());
+          navigate("/36tens/verify-email");
+        } else if (status === "Not Created") {
+          setText_error(status);
+        }
+        setSpinner_trigger(false)
+
+      }
   }, [dispatch, user_reg_error, status, navigate]);
 
 
@@ -345,7 +360,7 @@ const SignUp = () => {
           </Col>
         </Row>
         <Row className="center-m-r">
-          <p style={{ color: text_error.length === 0 ? "white" : "red" }}>
+          <p style={{ color:  "red" }}>
             {text_error}
           </p>
         </Row>
@@ -358,7 +373,8 @@ const SignUp = () => {
               handleSignUp();
             }}
           >
-            Sign-Up
+            {spinner_trigger ? <Spinner animation="border" variant="light" /> : "Sign-Up"}
+
           </CustomButton>
         </Row>
         <Row className="center-row">

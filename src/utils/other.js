@@ -51,3 +51,9 @@ export const first_letter_capitalize = (value) => {
 export const isNumber = (value) => {
   return value.replace(/\D/g,'')
 }
+
+export const set_profile_badge_name = (first_name, last_name) => {
+  if((first_name.length+last_name.length) > 8){
+    console.log(6)
+  }
+}

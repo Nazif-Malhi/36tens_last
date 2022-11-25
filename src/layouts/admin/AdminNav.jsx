@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { BsPersonFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { Nav, NavLink, NavMenu } from "../../components";
 import { Logo } from "../../assets";
 import Dropdown from "react-bootstrap/Dropdown";
+import { useSelector } from "react-redux";
+import { set_profile_badge_name } from "../../utils/other";
 
 const Navbar = styled.div`
 background: #f7f8fa;
@@ -81,6 +83,8 @@ const AltNavLink = styled(NavLink)`
 `;
 
 const AdminNav = () => {
+  const {user_data, loading}  = useSelector((state) => state.user_data);
+  const [profile_name, setProfile_name] =useState("");
   const navigate = useNavigate();
   const handleProfile = () => {
     navigate("profile");
@@ -90,6 +94,20 @@ const AdminNav = () => {
     navigate("/36tens");
     window.location.reload();
   };
+
+  useEffect(() => {
+    if(!loading && user_data.first_name !== undefined){
+      if(user_data.first_name.length+user_data.last_name.length <= 8){
+      setProfile_name(user_data.first_name+" "+user_data.last_name)
+      }
+      else{
+        setProfile_name(user_data.first_name.slice(0,1)+""+user_data.last_name.slice(0,1))
+      }
+    }
+    else{
+      setProfile_name("")
+    }
+  }, [loading, user_data])
 
   return (
     <Navbar>
@@ -109,7 +127,7 @@ const AdminNav = () => {
               <BsPersonFill />
             </div>
             <div className="text">
-              <p>Jan Doe</p>
+              <p>{profile_name}</p>
             </div>
           </Dropdown.Toggle>
 
