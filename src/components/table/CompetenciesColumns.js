@@ -23,6 +23,7 @@ const CompetencyColumns = ({ handleEdit, handleDelete, rows, pending }) => {
       name: "Defination",
       selector: (row) => row.defination,
       sortable: true,
+      maxWidth: "300px",
     },
     {
       name: "Actions",

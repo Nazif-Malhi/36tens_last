@@ -28,6 +28,8 @@ const CompetencyStatmentsColumns = ({
       name: "Statements",
       selector: (row) => row.statement,
       sortable: true,
+      maxWidth: "300px",
+
     },
     {
       name: "Actions",

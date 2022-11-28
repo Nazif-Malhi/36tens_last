@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { NavLink, useNavigate } from "react-router-dom";
 import { sideNavbar } from "../../assets";
 import { MasterOptions } from "../../components";
+import { useSelector } from "react-redux";
 
 const SideNavComponent = styled.div`
   width: 60px;
@@ -45,10 +46,17 @@ const Circle = styled(NavLink)`
 
 const AdminSideNav = () => {
   const navigate = useNavigate();
+
+  const { user_data } = useSelector(
+    (state) => state.user_data
+  );
+
   const [isActive, setActive] = useState("Dashboard");
   const [mastersOptionsModal, setMasterOptionsModal] = React.useState(false);
   const [url_path_name, setUrlPathname] = useState("");
   const [prev_active, setPrevActive] = useState("");
+
+  //is_superuser
 
   const handleClick = (e) => {
     setPrevActive(isActive);
@@ -73,6 +81,12 @@ const AdminSideNav = () => {
     <SideNavComponent>
       <br />
       {sideNavbar.map((val, id) => {
+        if(val.title === "Master" && !user_data.is_superuser){
+          return null;
+        }
+        else if(val.title === "WorkForce" && user_data.type === "Indvidual"){
+          return null;
+        }
         return (
           <Circle
             key={id}

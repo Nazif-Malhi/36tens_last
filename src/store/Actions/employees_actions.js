@@ -18,10 +18,10 @@ export const get_Employees = (company) => async (dispatch) => {
     const employees = await axios.get(
       `${process.env.REACT_APP_API_URL}/api/user-get/?`,
       {
-        params: { company_name: company },
+        params: { company_name: company === null ? "" : company },
       }
     );
-
+      console.log(employees);
     dispatch({
       type: EMPLOYEES_SUCCESS,
       payload: employees,
