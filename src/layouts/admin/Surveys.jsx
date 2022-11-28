@@ -2,16 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Row, Col } from "react-bootstrap";
 
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import CustomButton from "../../components/buttons/Custombutton";
-import Pagination from "@mui/material/Pagination";
-import TableHeading from "../../components/customTable/TableHeading";
+import {MenuItem, FormControl, Select, Pagination} from "@mui/material";
 import { SurveyCreation } from "../../assets/data/Database";
-import usePagination from "../../components/pagination/Pagination";
-import { CreateSurvey } from "../../components";
-import Table from "../../components/customTable/Table";
+import { CreateSurvey, CustomButton, Table, TableHeading, usePagination } from "../../components";
 
 import { useNavigate } from "react-router-dom";
 
@@ -80,8 +73,13 @@ const Surveys = () => {
   // const create survey
 
   const createSurveyMethod = (val) => {
-    SurveyCreation.push(val);
+    if(val !== null){
+SurveyCreation.push(val);
+setShowSurveyModal(false);
     navigate("/36tens/admin/competencies");
+
+    }
+    
   };
 
   useEffect(() => {

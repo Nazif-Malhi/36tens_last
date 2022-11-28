@@ -57,3 +57,7 @@ export const set_profile_badge_name = (first_name, last_name) => {
     console.log(6)
   }
 }
+
+export const check_date = (date) => {
+  console.log(date);
+}

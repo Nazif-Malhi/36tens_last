@@ -2,16 +2,10 @@ import { Box, Step, StepLabel, Stepper } from "@mui/material";
 import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import styled from "styled-components";
-// import { competencies_data } from "../../assets/Data/OrdinalCompetencies";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
-import CustomButton from "../../components/buttons/Custombutton";
-import CompetenciesCards from "../../components/cards/CompetenciesCards";
-import BuisnessImpactScale from "../../components/cards/BuisnessImpactScale";
-// import PreviewQuestions from "../../components/modals/PreviewQuestions";
-import Assign from "../../components/cards/Assign";
-import Done from "../../components/cards/Done";
-import { competencies_data } from "../../assets/data";
 import { PreviewQuestions } from "../../components/modal";
+import { Assign, BuisnessImpactScale, CompetenciesCards, CustomButton, Done } from "../../components";
+import { competencies_data } from "../../assets";
 
 const CompetenciesContainer = styled.div`
   width: 100%;
@@ -109,7 +103,6 @@ const Competencies = () => {
   const handleNext = () => {
     if (index0fCompetencyType < competencies_data.length - 1) {
       setIndexOfCompetencyType(index0fCompetencyType + 1);
-      // console.log(index0fCompetencyType);
     } else if (index0fCompetencyType === competencies_data.length - 1) {
       if (indexOfCard === 0) {
         setShowPreview(true);
@@ -125,10 +118,6 @@ const Competencies = () => {
     }
   };
   const handleBack = () => {
-    // if (index0fCompetencyType > 0) {
-    //   setIndexOfCompetencyType(index0fCompetencyType - 1);
-    // } else
-
     if (indexOfCard > 0) {
       if (indexOfCard === 3) {
         setIndexOfCard(indexOfCard - 1);
