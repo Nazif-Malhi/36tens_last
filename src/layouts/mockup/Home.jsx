@@ -4,7 +4,7 @@ import { Row, Col } from "react-bootstrap";
 
 import { Desktop } from "../../assets";
 import { CustomButton, InputRound } from "../../components";
-import "../../assets/styles/fonts.css";
+// import "../../assets/styles/fonts.css";
 // import './fonts.css'
 
 const HomeContainer = styled.div`
