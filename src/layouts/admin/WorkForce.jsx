@@ -3,24 +3,18 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Row, Col } from "react-bootstrap";
 import { AiOutlinePlus } from "react-icons/ai";
-import { BiFilterAlt } from "react-icons/bi";
+import { BiFilterAlt, BiSearch } from "react-icons/bi";
 import {
   AddEmployee,
   BulkUpload,
   CustomButton,
-  InputContact,
+  InputSearch,
   WorkforceColumns,
 } from "../../components";
 
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteUserData,
-  get_Employees,
-  
-} from "../../store";
-import {
-  employees_clearErrors,
-} from "../../store/Actions/employees_actions";
+import { deleteUserData, get_Employees } from "../../store";
+import { employees_clearErrors } from "../../store/Actions/employees_actions";
 
 const WorkforceContainer = styled.div`
   width: 100%;
@@ -61,9 +55,17 @@ const WorkforceContainer = styled.div`
       }
     }
     .filtersearch {
+      display: flex;
+      align-items: center;
+      margin-left: 10px;
       @media screen and (max-width: 455px) {
         display: flex;
         justify-content: center;
+      }
+      .search-has {
+        position: absolute;
+        margin-left: 10px;
+        color: #979797;
       }
     }
     .filterbutton {
@@ -118,9 +120,7 @@ const WorkForce = ({ data }) => {
 
   useEffect(() => {
     setFilterResults(employees);
-  }, [
-    employees,
-  ]);
+  }, [employees]);
 
   const handleEdit = (
     id,
@@ -151,7 +151,6 @@ const WorkForce = ({ data }) => {
     dispatch(deleteUserData(id));
   };
 
-
   return (
     <WorkforceContainer>
       <Row className="header">
@@ -169,12 +168,12 @@ const WorkForce = ({ data }) => {
                 setShowAddEmployeeModal(true);
               }}
             >
-              <AiOutlinePlus fontSize={"1.2rem"}/> Add New Employee
+              <AiOutlinePlus fontSize={"1.2rem"} /> Add New Employee
             </CustomButton>
             <CustomButton
               type={"normal textnormal margin-button"}
-               width="120px"
-               height="40px"
+              width="120px"
+              height="40px"
               onClick={() => {
                 setBulkUpload(true);
               }}
@@ -185,7 +184,9 @@ const WorkForce = ({ data }) => {
         </Row>
         <Row className="common-row">
           <Col className="filtersearch">
-            <InputContact
+            <BiSearch className="search-has" fontSize={"1.2rem"} />
+
+            <InputSearch
               placeholder={`Search`}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -193,7 +194,6 @@ const WorkForce = ({ data }) => {
           </Col>
           <Col className="filterbutton">
             <CustomButton
-          
               type={"normal textnormal margin-button margin-top-responsive"}
               width="120px"
               height="40px"
@@ -201,7 +201,7 @@ const WorkForce = ({ data }) => {
                 filter();
               }}
             >
-              <BiFilterAlt  /> Filter
+              <BiFilterAlt /> Filter
             </CustomButton>
           </Col>
         </Row>

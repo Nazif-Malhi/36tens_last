@@ -12,8 +12,8 @@ const ContactWrapper = styled.div`
   text-align: center;
 
   .contact-form {
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px 0px,
-      rgba(0, 0, 0, 0.23) 0px 6px 6px 0px;
+    // box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px 0px,
+    //   rgba(0, 0, 0, 0.23) 0px 6px 6px 0px;
     border-radius: 8px;
     width: 80%;
     height: 80%;
@@ -26,16 +26,30 @@ const ContactWrapper = styled.div`
       justify-content: center;
       align-items: center;
       width: 80%;
-      margin: 20px 0px;
+      margin: 10px 0px;
       select {
         width: 100%;
         background: rgba(216, 216, 216, 0.1);
-        border: 1px solid rgba(35, 35, 64, 0.31);
-        border-radius: 2px;
         padding: 10px;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+          rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+        background: rgba(216, 216, 216, 0.1);
+        border-radius: 10px;
+        border: none;
+        :focus {
+          outline: none;
+        }
       }
       textarea {
         background: rgba(216, 216, 216, 0.1);
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+          rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+        background: rgba(216, 216, 216, 0.1);
+        border-radius: 10px;
+        border: none;
+        :focus {
+          outline: none;
+        }
       }
     }
   }

@@ -5,7 +5,7 @@ import { BsArrowRight } from "react-icons/bs";
 const ServiceContainerInactive = styled.div`
   max-width: 400px;
   min-width: 400px;
-  height: 200px;
+  height: 170px;
   border-radius: 40px;
   text-align: start;
   background: white;
@@ -15,9 +15,9 @@ const ServiceContainerInactive = styled.div`
   color: black;
 
   .servicetext {
-    margin-top: 40px;
-    margin-left: 50px;
-    h1 {
+    margin-top: 30px;
+    margin-left: 40px;
+    h2 {
       margin-bottom: 0px;
     }
     p {
@@ -39,7 +39,7 @@ const ServiceCard = ({ heading }) => {
     <>
       <ServiceContainerInactive>
         <div className="servicetext">
-          <h1>{heading}</h1>
+          <h2>{heading}</h2>
           <p>Explore Now</p>
           <BsArrowRight style={{ fontSize: "1.75rem" }} />
         </div>

@@ -4,7 +4,7 @@ import { Row, Col } from "react-bootstrap";
 
 import { Desktop } from "../../assets";
 import { CustomButton, InputRound } from "../../components";
-import '../../assets/styles/fonts.css'
+import "../../assets/styles/fonts.css";
 // import './fonts.css'
 
 const HomeContainer = styled.div`
@@ -25,7 +25,7 @@ const HomeContainer = styled.div`
         align-items: start;
 
         h1 {
-          font-family: 'Roboto', sans-serif;
+          font-family: "Roboto", sans-serif;
 
           font-weight: 700;
           font-size: 100px;
@@ -41,10 +41,10 @@ const HomeContainer = styled.div`
           letter-spacing: 2px;
           margin: 0px;
           color: #040b5c;
-          font-family: 'Raleway', sans-serif;
+          font-family: "Raleway", sans-serif;
         }
         h3 {
-          font-family: 'Raleway', sans-serif;
+          font-family: "Raleway", sans-serif;
           color: #071399;
           font-weight: 200px;
           font-size: 25px;
@@ -119,8 +119,7 @@ const Home = ({ id }) => {
             <div className="text">
               <h1>360</h1>
               <h2>FEEDBACK</h2>
-              <h3 style={{ marginTop: "20px" }}>ONLINE FAST &</h3>
-              <h3>SIMPLE</h3>
+              <h3 style={{ marginTop: "20px" }}>ONLINE FAST & SIMPLE</h3>
             </div>
             <div className="lower">
               <InputRound

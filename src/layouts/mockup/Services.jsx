@@ -54,8 +54,8 @@ const Services = ({ id }) => {
         >
           <div className="text">
             <h1>Do more</h1>
-            <h1>than just</h1>
-            <h1>Surveys.</h1>
+            <h1>than</h1>
+            <h1>just Surveys.</h1>
             <p>People and Data analytics combined for </p>
             <p>powerful resutls, interactive dashboards </p>
             <p>Intutive analysis with predictions and smart </p>

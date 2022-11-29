@@ -10,7 +10,7 @@ const BuisnessImpactScaleContainer = styled.div`
   width: 95%;
   height: 400px;
   background: white;
-  border-radius: 7px;
+  border-radius: 35px;
   display: flex;
   flex-direction: column;
   align-items: center;

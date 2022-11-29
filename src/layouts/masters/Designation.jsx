@@ -81,7 +81,7 @@ const Designation = () => {
                 setTrigger("isAdd");
               }}
             >
-              <AiOutlinePlus fontSize={"1.2rem"}/> Add Designation
+              <AiOutlinePlus fontSize={"1.2rem"} /> Add Designation
             </CustomButton>
           </Col>
         </Row>

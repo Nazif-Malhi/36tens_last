@@ -13,6 +13,10 @@ export const Container = styled.div`
       height: auto;
       margin: 10px 0px;
       padding: 0px;
+      .responsive-button {
+        display: flex;
+        justify-content: flex-end;
+      }
     }
     .title {
       display: flex;

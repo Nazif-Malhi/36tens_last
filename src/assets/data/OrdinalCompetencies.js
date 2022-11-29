@@ -1,6 +1,6 @@
 export const competencies_data = [
   {
-    competency_type: "PERSONAL FOCUS",
+    competency_type: "Personal Focus",
     competencies: [
       {
         competency_name: "Discipline",
@@ -19,7 +19,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "EXCELLENCE",
+        competency_name: "Excellence",
         def: "Ability to demonstrate commitment to quality and to deliver the best possible results",
         statements: [
           "Builds a culture of high performance and standards",
@@ -27,7 +27,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "ORGANIZATIONAL KNOWLEDGE",
+        competency_name: "Organizational Knowledge",
         def: "Ability to make use of organizational dynamics, purpose, culture and work system",
         statements: [
           "Knows the reasoning behind key policies, practices, procedures and organizational decisions",
@@ -38,10 +38,10 @@ export const competencies_data = [
   },
 
   {
-    competency_type: "VALUE FOCUS",
+    competency_type: "Value Focus",
     competencies: [
       {
-        competency_name: "CHANGE AND INNOVATION",
+        competency_name: "Change And Innovation",
         def: "Ability to be receptive to changes within the business environment and to drive change initiatives",
         statements: [
           "Prepared to meet the ever-changing demand of business",
@@ -49,7 +49,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "ACCOUNTABILITY",
+        competency_name: "Accountability",
         def: "Ability to take personal responsibility for his/her actions",
         statements: [
           "Demonstrates accountability for owning to shortcoming / decisions made",
@@ -57,7 +57,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "DIVERSITY AND INCLUSION",
+        competency_name: "Diversity And Inclusion",
         def: "Ability to promote and encourage an eco system of equity and harmony that welcomes and allows all to be valued, accepted, respected, encouraged and appreciated to fully participate in the organization",
         statements: [
           "Accepts and honors diverse perspectives",
@@ -65,7 +65,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "INTEGRITY AND TRUST",
+        competency_name: "Integrity And Trust",
         def: "Ability to earn trust and respect of people through honesty and professionalism in their work and approach",
         statements: [
           "Honors commitments made",
@@ -76,10 +76,10 @@ export const competencies_data = [
   },
 
   {
-    competency_type: "RELATIONSHIP FOCUS",
+    competency_type: "Relationship Focus",
     competencies: [
       {
-        competency_name: "STAKEHOLDER MANAGEMENT",
+        competency_name: "Stakeholder Management",
         def: "Ability to develop and maintain cordial relationships with people who impact the work most",
         statements: [
           "Identifies stakeholder issues / events that might impact assigned targets",
@@ -87,7 +87,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "NETWORKING AND INFLUENCE",
+        competency_name: "Networking And Influence",
         def: "Ability to build, maintain partnership and coalitions both within and outside the organization, to gain networks' support for addressing challenges, ideas, and solutions",
         statements: [
           "Capitalizes on both formal channels and informal networks to achieve goals",
@@ -95,7 +95,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "TEAMWORK",
+        competency_name: "Teamwork",
         def: "Ability to cooperate and work with others, support team / others to achieve results",
         statements: [
           "Communicates clear expectations for team working and collaboration",
@@ -103,7 +103,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "COMMUNICATION",
+        competency_name: "Communication",
         def: "Ability to articulate in a manner that is clear and easy to understand",
         statements: [
           "Translates strategy into clear and effective operational priorities and expectations",
@@ -114,10 +114,10 @@ export const competencies_data = [
   },
 
   {
-    competency_type: "SUCCESS FOCUS",
+    competency_type: "Success Focus",
     competencies: [
       {
-        competency_name: "ACHIEVING RESULTS",
+        competency_name: "Achieving Results",
         def: "Ability to successfully achieve business results",
         statements: [
           "Achieves targets with minimum margin for oversight",
@@ -125,7 +125,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "RESOURCE MANAGEMENT",
+        competency_name: "Resource Management",
         def: "Ability to use organizational resources efficiently",
         statements: [
           "Aligns resources adequately and within compliance frameworks",
@@ -133,7 +133,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "BUSINESS DECISION",
+        competency_name: "Business Decision",
         def: "Ability to contribute towards timely and sound decisions",
         statements: [
           "Ensures decisions are well thought through and widely accepted",
@@ -141,7 +141,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "CUSTOMER CENTRICITY",
+        competency_name: "Customer Centricity",
         def: "Ability to balance customer and business expectations by raising the standard of customer service ",
         statements: [
           "Aware of and open to feedback from customers",
@@ -152,10 +152,10 @@ export const competencies_data = [
   },
 
   {
-    competency_type: "STRATEGIC FOCUS",
+    competency_type: "Strategic Focus",
     competencies: [
       {
-        competency_name: "TALENT DEVELOPMENT",
+        competency_name: "Talent Development",
         def: "Ability to enhance employees existing skills to remain competitive",
         statements: [
           "Anticipates future skill and knowledge requirements and develops these among team members",
@@ -163,7 +163,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "ALIGNMENT",
+        competency_name: "Alignment",
         def: "Ability to align company’s ultimate vision of success to drive business results",
         statements: [
           "Follows key metrices to accurately evaluate success",
@@ -171,7 +171,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "VISION",
+        competency_name: "Vision",
         def: "Ability to drive vision and purpose",
         statements: [
           "Encourages dialogue / discussion on future possibilities",
@@ -179,7 +179,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "STRATEGIC THINKING",
+        competency_name: "Strategic Thinking",
         def: "Ability to understand organization’s purpose, strategy, goals and the context within which it operates and its relation to the role",
         statements: [
           "Ability to understand organization’s purpose, strategy, goals and the context within which it operates and its relation to the role",
@@ -190,10 +190,10 @@ export const competencies_data = [
   },
 
   {
-    competency_type: "LEADERSHIP FOCUS",
+    competency_type: "Leadership Focus",
     competencies: [
       {
-        competency_name: "INITIATIVES",
+        competency_name: "Initiatives",
         def: "Ability to recognize and create opportunities which compliment and support business outcomes",
         statements: [
           "Presents doable plans and proposals for future activities",
@@ -201,7 +201,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "RISK MANAGEMENT",
+        competency_name: "Risk Management",
         def: "Ability to assess the the potential outcomes vis a vis risk mitigation",
         statements: [
           "Manages risks and consequences as they occur",
@@ -209,7 +209,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "FINANCIAL PERFORMANCE",
+        competency_name: "Financial Performance",
         def: "Ability to focus on key financial indicators to positively impact financial results",
         statements: [
           "Implements strategy / achieves objectives within assigned budget",
@@ -217,7 +217,7 @@ export const competencies_data = [
         ],
       },
       {
-        competency_name: "ENGAGEMENT",
+        competency_name: "Engagement",
         def: "Ability to influence and increase engagement across the board",
         statements: [
           "Assigned team / unit has a high engagement level / score",

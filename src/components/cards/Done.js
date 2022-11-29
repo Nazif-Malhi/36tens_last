@@ -7,7 +7,7 @@ const DoneContainer = styled.div`
   height: 332px;
   margin-top: 20px;
   background: white;
-  border-radius: 7px;
+  border-radius: 35px;
   display: flex;
   flex-direction: column;
   align-items: center;
