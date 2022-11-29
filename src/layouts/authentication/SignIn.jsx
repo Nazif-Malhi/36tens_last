@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 const LogInWrapper = styled.div`
   width: 35%;
   background-color: white;
-  border-radius: 7px;
+  border-radius: 35px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -133,7 +133,7 @@ if(updated){
     <StyledContainer>
       <LogInWrapper>
         <div className="header">
-          <h1>Log In</h1>
+          <h1>LOGIN</h1>
         </div>
         <Row className="center-row">
           <TextField

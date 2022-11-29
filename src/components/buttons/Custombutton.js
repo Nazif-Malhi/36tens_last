@@ -1,10 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import '../../assets/styles/fonts.css'
 
 const ButtonStyle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: 'Raleway', sans-serif;
+
   .default {
     margin-left: -100%;
     background: #a600a0;
@@ -21,7 +24,7 @@ const ButtonStyle = styled.div`
   }
   .normal {
     background: #a600a0;
-    border-radius: 7px;
+    border-radius: 12px;
     border: none;
     :hover {
       background: #232340;
@@ -73,6 +76,12 @@ const ButtonStyle = styled.div`
   .margin-bottom {
     margin-bottom: 40px;
   }
+  .row-button{
+    
+       display:flex;
+       align-items:center;
+       justify-content:space-around;
+  }
 `;
 
 const CustomButton = ({
@@ -92,7 +101,9 @@ const CustomButton = ({
         onClick={onClick}
         style={{ width: width, height: height, style }}
       >
-        {children}
+        <div className="row-button">
+          {children}
+          </div>
       </button>
     </ButtonStyle>
   );

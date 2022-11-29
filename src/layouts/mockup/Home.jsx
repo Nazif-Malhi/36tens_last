@@ -4,6 +4,8 @@ import { Row, Col } from "react-bootstrap";
 
 import { Desktop } from "../../assets";
 import { CustomButton, InputRound } from "../../components";
+import '../../assets/styles/fonts.css'
+// import './fonts.css'
 
 const HomeContainer = styled.div`
   display: flex;
@@ -23,6 +25,8 @@ const HomeContainer = styled.div`
         align-items: start;
 
         h1 {
+          font-family: 'Roboto', sans-serif;
+
           font-weight: 700;
           font-size: 100px;
           color: #950090;
@@ -37,8 +41,10 @@ const HomeContainer = styled.div`
           letter-spacing: 2px;
           margin: 0px;
           color: #040b5c;
+          font-family: 'Raleway', sans-serif;
         }
         h3 {
+          font-family: 'Raleway', sans-serif;
           color: #071399;
           font-weight: 200px;
           font-size: 25px;

@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { BsArrowRight } from "react-icons/bs";
 
 const ServiceContainerInactive = styled.div`
-  width: 100%;
+  max-width: 400px;
+  min-width: 400px;
   height: 200px;
   border-radius: 40px;
   text-align: start;

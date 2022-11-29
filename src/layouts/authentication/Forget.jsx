@@ -10,7 +10,7 @@ import { CustomButton } from "../../components";
 const ForgetWrapper = styled.div`
   width: 35%;
   background-color: white;
-  border-radius: 7px;
+  border-radius: 35px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -43,7 +43,7 @@ const Forget = () => {
     <StyledContainer>
       <ForgetWrapper>
         <div className="header">
-          <h1>Forget</h1>
+          <h1>FORGET PASSWORD</h1>
         </div>
 
         <Row className="center-row">
