@@ -9,16 +9,25 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 
 
-export function CreateSurvey(props) {
+export function CreateSurvey({createSurveyMethod, ...props}) {
   const [surveyName, setSurveyName] = useState("");
   const [end_date, setEnd_Date]= useState("");
+  const [text_error, setText_error] = useState("");
+
   const handleCreation = () => {
+    if(!surveyName || !end_date){
+      setText_error("Please fill all feilds")
+      return null;
+    }
+    else if (surveyName && end_date){
+      setText_error("");
     const dumyData = {
       name: surveyName,
     };
     setSurveyName("");
-    props.onHide();
     return dumyData;
+    }
+    
   };
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" size="lg">
@@ -44,6 +53,7 @@ export function CreateSurvey(props) {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="Survey End Date"
+                  disablePast
                   value={end_date}
                   onChange={(e) => {
                     setEnd_Date(e);
@@ -59,6 +69,14 @@ export function CreateSurvey(props) {
               </LocalizationProvider>
             </Col>
           </Row>
+          <p
+            style={{
+              color: text_error.length === 0 ? "white" : "red",
+              textAlign: "center",
+            }}
+          >
+            {text_error}
+          </p>
         </Container>
       </Modal.Body>
       <Modal.Footer>
@@ -71,7 +89,7 @@ export function CreateSurvey(props) {
         <Button
           style={{ background: "#a600a0", border: "none" }}
           onClick={() => {
-            props.createSurveyMethod(handleCreation());
+              createSurveyMethod(handleCreation());
           }}
         >
           Create Survey

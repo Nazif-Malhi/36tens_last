@@ -169,17 +169,17 @@ const WorkForce = ({ data }) => {
                 setShowAddEmployeeModal(true);
               }}
             >
-              <AiOutlinePlus /> Add New Employee
+              <AiOutlinePlus fontSize={"1.2rem"}/> Add New Employee
             </CustomButton>
             <CustomButton
               type={"normal textnormal margin-button"}
-              width="180px"
-              height="40px"
+               width="120px"
+               height="40px"
               onClick={() => {
                 setBulkUpload(true);
               }}
             >
-              <AiOutlinePlus /> Bulk Add
+              <AiOutlinePlus fontSize={"1.2rem"} /> Bulk Add
             </CustomButton>
           </Col>
         </Row>
@@ -193,6 +193,7 @@ const WorkForce = ({ data }) => {
           </Col>
           <Col className="filterbutton">
             <CustomButton
+          
               type={"normal textnormal margin-button margin-top-responsive"}
               width="120px"
               height="40px"
@@ -200,7 +201,7 @@ const WorkForce = ({ data }) => {
                 filter();
               }}
             >
-              <BiFilterAlt /> Filter
+              <BiFilterAlt  /> Filter
             </CustomButton>
           </Col>
         </Row>

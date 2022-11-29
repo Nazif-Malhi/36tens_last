@@ -16,7 +16,7 @@ import { register, user_reg_clearErrors } from "../../store/Actions";
 const SignUpWrapper = styled.div`
   width: 45%;
   background-color: white;
-  border-radius: 7px;
+  border-radius: 35px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -186,7 +186,7 @@ const SignUp = () => {
     <StyledContainer signup>
       <SignUpWrapper>
         <div className="header">
-          <h1>Sign Up</h1>
+          <h1>SIGNUP</h1>
         </div>
         <Row className="center-row">
           <TextField

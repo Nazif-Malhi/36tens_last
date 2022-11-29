@@ -82,14 +82,14 @@ const Competency_Name = () => {
           <Col className={"responsive-button"}>
             <CustomButton
               type={"normal textnormal margin-button"}
-              width="220px"
+              width="210px"
               height="40px"
               onClick={() => {
                 setShow_Modal(true);
                 setTrigger("isAdd");
               }}
             >
-              <AiOutlinePlus /> Add Competency Name
+              <AiOutlinePlus fontSize={"1.2rem"}/> Add Competency Name
             </CustomButton>
           </Col>
         </Row>

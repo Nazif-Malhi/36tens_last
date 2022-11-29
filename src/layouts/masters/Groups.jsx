@@ -77,7 +77,7 @@ const Groups = () => {
                 setTrigger("isAdd");
               }}
             >
-              <AiOutlinePlus /> Add Groups
+              <AiOutlinePlus fontSize={"1.2rem"}/> Add Groups
             </CustomButton>
           </Col>
         </Row>

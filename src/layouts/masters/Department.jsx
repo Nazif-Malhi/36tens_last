@@ -76,14 +76,14 @@ const Department = () => {
           <Col className={"responsive-button"}>
             <CustomButton
               type={"normal textnormal margin-button"}
-              width="180px"
+              width="170px"
               height="40px"
               onClick={() => {
                 setShow_Modal(true);
                 setTrigger("isAdd");
               }}
             >
-              <AiOutlinePlus /> Add Department
+              <AiOutlinePlus fontSize={"1.2rem"}/> Add Department
             </CustomButton>
           </Col>
         </Row>
