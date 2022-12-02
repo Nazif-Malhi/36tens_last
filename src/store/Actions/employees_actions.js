@@ -9,6 +9,7 @@ import {
   UPDATE_EMPLOYEES_REQUEST,
   UPDATE_EMPLOYEES_SUCCESS,
 } from "../Constants/employees_constants";
+import { user_errors } from "../ErrorsHandler";
 
 export const get_Employees = (company) => async (dispatch) => {
   try {
@@ -21,7 +22,6 @@ export const get_Employees = (company) => async (dispatch) => {
         params: { company_name: company === null ? "" : company },
       }
     );
-      console.log(employees);
     dispatch({
       type: EMPLOYEES_SUCCESS,
       payload: employees,
@@ -52,7 +52,7 @@ export const update_employee = (update_payload, id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: UPDATE_EMPLOYEES_FAIL,
-      payload: error.response,
+      payload: user_errors(error.response.data),
     });
   }
 };

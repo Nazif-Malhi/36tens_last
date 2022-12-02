@@ -1,3 +1,4 @@
+// 2 feilds must be handled fromdatase and recheck the code == >
 import React, { useEffect, useState,useMemo, forwardRef } from "react";
 import { TextField, MenuItem, FormControl, Select, OutlinedInput, InputLabel } from "@mui/material";
 import { Row, Col, Modal, Container, Button, Spinner } from "react-bootstrap";
@@ -31,6 +32,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
   const dispatch = useDispatch();
   const options = useMemo(() => countryList().getData(), []);
 
+  const {user_data} = useSelector((state) => state.user_data)
   const { groups, group_error } = useSelector((state) => state.groups);
   const { designations, designation_error } = useSelector(
     (state) => state.designations
@@ -42,6 +44,9 @@ function AddEmployee({ onHandleCallBack, ...props }) {
     (state) => state.user_reg
   );
   const {update_emp, update_emp_error, is_updated_emp} = useSelector( (state) => state.update_emp);
+
+  
+
   const [employee_id, setEmployeeId] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -56,21 +61,10 @@ function AddEmployee({ onHandleCallBack, ...props }) {
 
   const[country, setCountry] = useState("");
   const [phone, setPhone] = useState("");
-  const [package_title, setPackage_title] = useState("");
 
   const[city, setCity] = useState("");
   const[province, setProvince] =  useState("");
   const [address, setAddress] = useState("");
-
-  const [companyName, setCompanyName] = useState("");
-  const [companyType, setCompanyType] = useState("");
-
-  const [industry, setIndustry] = useState("");
-  const [annual, setAnnual] = useState("");
-
-  const [totalHeadCount, setTotalHeadCount] = useState("");
-  const [marketShare, setMarketShare] = useState("");
-  const [type, setType] = useState("");
 
 
   const [email_validation_error, setEmail_validation_error] = useState(false);
@@ -93,6 +87,13 @@ function AddEmployee({ onHandleCallBack, ...props }) {
 
   useEffect(() => {
     if (props.trigger === "isEdit") {
+      // Must be handled from backend then un comment 
+      // setEmployeeId(
+      //   props.value_input.employee_id === null ? "" : props.value_input.employee_id
+      // );
+      // setUser_name(
+      //   props.value_input.user_name === null ? "" : props.value_input.user_name
+      // )
       setFirstName(
         props.value_input.first_name === null
           ? ""
@@ -118,6 +119,11 @@ function AddEmployee({ onHandleCallBack, ...props }) {
           ? ""
           : props.value_input.contact_num
       );
+      setRole_title(props.value_input.role_title === null ? "" : props.value_input.role_title);
+      setCountry(props.value_input.country === null ? "" : props.value_input.country)
+      setProvince(props.value_input.province === null ? "" : props.value_input.province);
+      setAddress(props.value_input.address === null ? "" : props.value_input.address)
+      setCity(props.value_input.city === null ? "" : props.value_input.city)
     } else {
       emptyFeilds();
     }
@@ -129,20 +135,35 @@ function AddEmployee({ onHandleCallBack, ...props }) {
       setSpinner_trigger(true)
       setText_error("");
     const update_payoad = {
+      // employee_id:employee_id,   => employee_id must be added in database
+      // user_name:user_name,       => user_name must be added in database
       first_name: firstName,
       last_name: lastName,
-      contact_num: phone,
       email: email,
       designation: designation,
       group: group,
       department: department_input,
-      company_name: props.company_name,
-      type: "Company",
-      role_title: "admin",
+      contact_num: phone,
+      country:country,
+      city:city,
+      province:province,
+      address:address,
+
+      package_title: user_data.package_title,
+      company_name:user_data.company_name,
+      company_type:user_data.company_type,
+      industry:user_data.industry,
+      revenue:user_data.revenue,
+      headcount:user_data.headcount,
+      market_share:user_data.market_share,
+      type:user_data.type,
+
+      role_title: "admin",       // => must be changed to viewer
       password: "360@password_guest",
-      package_title: 1,
     };
     if (
+      // employee_id.length === 0 ||
+      // user_name.length === 0 ||   => must be handled and then un comment
       firstName.length === 0 ||
       lastName.length === 0 ||
       phone.length === 0 ||
@@ -152,7 +173,11 @@ function AddEmployee({ onHandleCallBack, ...props }) {
       group.length === 0
     ) {
       setText_error("Please Fill all Feilds");
+      setSpinner_trigger(false)
+
     } else if (
+      // employee_id.length > 0 &&
+      // user_name.length > 0 &&  => must be handled and then un comment 
       firstName.length > 0 &&
       lastName.length > 0 &&
       phone.length > 0 &&
@@ -163,10 +188,12 @@ function AddEmployee({ onHandleCallBack, ...props }) {
     ) {
       if (email_validation_error) {
         setText_error("Email not valid");
+        setSpinner_trigger(false)
+
       } else {
         switch (props.trigger) {
           case "isAdd":
-            dispatch(register(update_payoad));
+             dispatch(register(update_payoad));
             break;
           case "isEdit":
             dispatch(update_employee(update_payoad, props.id));
@@ -180,10 +207,11 @@ function AddEmployee({ onHandleCallBack, ...props }) {
   };
   useEffect(() => {
     if (!is_reg) {
-      if (user_reg_error !== undefined ) {
-        setText_error(user_reg_error);
+      if (user_reg_error) {
+        user_reg_error.feild === "email" ? 
+          setText_error(user_reg_error.error)
+          : setText_error(user_reg_error.feild +" : "+user_reg_error.error)
         setSpinner_trigger(false)
-
       }
     } else {
       dispatch(get_Employees(props.company_name));
@@ -194,8 +222,12 @@ function AddEmployee({ onHandleCallBack, ...props }) {
 
   useEffect(() => {
     if(!is_updated_emp){
-      setText_error(update_emp_error);
-      setSpinner_trigger(false)
+      if (update_emp_error) {
+        update_emp_error.feild === "email" ? 
+          setText_error(update_emp_error.error)
+          : setText_error(update_emp_error.feild +" : "+update_emp_error.error)
+        setSpinner_trigger(false)
+      }
 
     } else{
       dispatch(get_Employees(props.company_name));
@@ -208,10 +240,14 @@ function AddEmployee({ onHandleCallBack, ...props }) {
   const handleOnClose = () => {
     emptyFeilds();
     setText_error("");
+    setSpinner_trigger(false)
+
     props.onHide();
   };
 
   const emptyFeilds = () => {
+    setEmployeeId("");
+    setUser_name("");
     setFirstName("");
     setLastName("");
     setDepartment_Input("");
@@ -219,6 +255,11 @@ function AddEmployee({ onHandleCallBack, ...props }) {
     setGroup("");
     setEmail("");
     setPhone("");
+    setRole_title("");
+    setCountry("");
+    setCity("");
+    setProvince("");
+    setAddress("");
   };
 
   const handleEmail_Validation = (email) => {
@@ -412,7 +453,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
           </Row>
           <Row style={{ marginBottom: "10px" }}>
           <Col>
-                  <FormControl
+            <FormControl
                     sx={{ width: "100%" }}
                     size="small"
                     style={{ background: "white" }}
@@ -424,8 +465,10 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                       labelId="demo-multiple-name-label"
                       id="demo-multiple-name"
                       value={country.length > 0 ? country : ""}
-                      onChange={(e) => {setCountry(e.target.value); console.log(e.target.value)}}
-                      input={<OutlinedInput label="Name" />}
+                      onChange={(e) => setCountry(e.target.value)}
+                      onKeyDown={(e) => console.log(e)}
+                      input={<OutlinedInput label="Country" />}
+                      
                     >
                       {options.map((val, id) => {
                         return (
@@ -436,19 +479,8 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                       })}
                     </Select>
                   </FormControl>
-                </Col>
+                </Col> 
                 <Col >
-              {/* <TextField
-                type={"text"}
-                id="outlined-name"
-                label="Phone Number"
-                size="small"
-                fullWidth
-                value={phone}
-                onChange={(e) => {
-                  setPhone(isNumber(e.target.value));
-                }}
-              /> */}
               <CustomInput
               component={TextField}
               countryCodeEditable = {false}
@@ -463,10 +495,8 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                 label="Pakage Title"
                 size="small"
                 fullWidth
-                value={package_title}
-                onChange={(e) => {
-                  setPackage_title(e.target.value);
-                }}
+                disabled
+                value={user_data.package_title === "2" ? "Custom" : "Standard"}
               />
             </Col>
           </Row>
@@ -513,15 +543,16 @@ function AddEmployee({ onHandleCallBack, ...props }) {
           </Row>
           <Row style={{ marginBottom: "10px" }}>
           <Col>
+
                   <TextField
+                  
                     id="outlined-name"
                     label="Company Name"
                     size="small"
                     fullWidth
-                    value={companyName}
-                    onChange={(e) => {
-                      setCompanyName(e.target.value);
-                    }}
+                    disabled
+                    value={user_data.company_name}
+                   
                   />
                 </Col>
                 <Col>
@@ -531,10 +562,8 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                 label="Company Type"
                 size="small"
                 fullWidth
-                value={companyType}
-                onChange={(e) => {
-                  setCompanyType(e.target.value);
-                }}
+                disabled
+                    value={user_data.company_type}
               />
                 </Col>
                 <Col>
@@ -544,10 +573,8 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                 label="Industry"
                 size="small"
                 fullWidth
-                value={industry}
-                onChange={(e) => {
-                  setIndustry(e.target.value);
-                }}
+                disabled
+                    value={user_data.industry}
               />
                 </Col>
           </Row>
@@ -560,10 +587,8 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                 label="Annual Revenue in USD"
                 size="small"
                 fullWidth
-                value={annual}
-                onChange={(e) => {
-                  setAnnual(e.target.value);
-                }}
+                disabled
+                value={user_data.revenue}
               />
                 </Col>
                 <Col>
@@ -573,10 +598,8 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                 label="Total Head Count"
                 size="small"
                 fullWidth
-                value={totalHeadCount}
-                onChange={(e) => {
-                  setTotalHeadCount(e.target.value);
-                }}
+                disabled
+                value={user_data.headcount}
               />
                 </Col>
                 <Col>
@@ -586,10 +609,8 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                 label="Market Share"
                 size="small"
                 fullWidth
-                value={marketShare}
-                onChange={(e) => {
-                  setMarketShare(e.target.value);
-                }}
+                disabled
+                value={user_data.market_share}
               />
                 </Col>
           </Row>
@@ -601,10 +622,8 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                 label="Type"
                 size="small"
                 fullWidth
-                value={type}
-                onChange={(e) => {
-                  setType(e.target.value);
-                }}
+                disabled
+                value={user_data.type}
               />
             </Col>
           </Row>

@@ -113,12 +113,13 @@ const SignUp = () => {
         email: email,
         password: password,
         type: whoYouAre,
-        package:
+        package_title:
           packageOfUser === "Custom"
             ? 2
             : packageOfUser === "Standard"
             ? 1
             : null,
+            role_title: "admin",
       };
       if (email_validation_error) {
         setText_error("Email not valid");
@@ -161,8 +162,10 @@ const SignUp = () => {
   };
   useEffect(() => {
       if(!is_reg){
-        if (user_reg_error !== undefined ) {
-          setText_error(user_reg_error);
+        if (user_reg_error) {
+          user_reg_error.feild === "email" ? 
+            setText_error(user_reg_error.error)
+            : setText_error(user_reg_error.feild +" : "+user_reg_error.error)
           setSpinner_trigger(false)
         }
       }

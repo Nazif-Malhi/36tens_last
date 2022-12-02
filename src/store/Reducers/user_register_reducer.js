@@ -30,7 +30,7 @@ export const user_regiser_reducer = (
       return {
         loading: false,
         user_reg: null,
-       user_reg_error: action.payload.data.email[0],
+       user_reg_error: action.payload,
         is_reg: false,
       };
 

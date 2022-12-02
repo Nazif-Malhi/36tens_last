@@ -130,7 +130,12 @@ const WorkForce = ({ data }) => {
     designation,
     contact_num,
     group,
-    email
+    email,
+    role_title,
+                country,
+                province,
+                address,
+                city,
   ) => {
     const data = {
       id: id,
@@ -141,6 +146,11 @@ const WorkForce = ({ data }) => {
       contact_num: contact_num,
       group: group,
       email: email,
+      role_title,
+                country,
+                province,
+                address,
+                city,
     };
     setTrigger("isEdit");
     setEditValue(data);
@@ -219,7 +229,12 @@ const WorkForce = ({ data }) => {
             designation,
             contact_num,
             group,
-            email
+            email,
+            role_title,
+            country,
+            province,
+            address,
+            city,
           ) => {
             handleEdit(
               id,
@@ -229,7 +244,12 @@ const WorkForce = ({ data }) => {
               designation,
               contact_num,
               group,
-              email
+              email,
+            role_title,
+                country,
+                province,
+                address,
+                city,
             );
           }}
           rows={!loading ? filterResults : temp}
@@ -247,6 +267,7 @@ const WorkForce = ({ data }) => {
         value_input={editValue}
         id={id}
         company_name={data.company_name}
+        // data={data}
       />
       <BulkUpload
         show={isBulkUpload}

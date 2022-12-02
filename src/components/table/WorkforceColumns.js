@@ -4,7 +4,6 @@ import React from "react";
 import CustomDataTable from "./DataTable";
 
 const WorkforceColumns = ({ handleEdit, handleDelete, rows, pending }) => {
-  console.log(rows.length);
   const columns = [
     {
       name: "ID",
@@ -45,7 +44,12 @@ const WorkforceColumns = ({ handleEdit, handleDelete, rows, pending }) => {
                 row.designation,
                 row.contact_num,
                 row.group,
-                row.email
+                row.email,
+                row.role_title,
+                row.country,
+                row.province,
+                row.address,
+                row.city,
               )
             }
           />

@@ -1,4 +1,3 @@
-import { FaTheRedYeti } from "react-icons/fa";
 import {
     TEMP_USER_REQUEST,
     TEMP_USER_SUCCESS,

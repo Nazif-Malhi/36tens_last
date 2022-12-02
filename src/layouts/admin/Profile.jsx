@@ -182,6 +182,7 @@ const Profile = ({ data }) => {
       };
       dispatch(updateUserData(payload_update, data.id));
     }
+    console.log("here")
   };
 
   return (

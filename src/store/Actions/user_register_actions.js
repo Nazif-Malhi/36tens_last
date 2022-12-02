@@ -5,6 +5,7 @@ import {
   USER_REGISTER_FAIL,
   USER_REGISTER_CLEAR_ERRORS,
 } from "../Constants/user_register_constants";
+import { user_errors } from "../ErrorsHandler";
 
 export const register = (register_payload) => async (dispatch) => {
   try {
@@ -22,7 +23,7 @@ export const register = (register_payload) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
-      payload: error.response,
+      payload: user_errors(error.response.data),
     });
   }
 };

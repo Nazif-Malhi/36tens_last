@@ -65,7 +65,7 @@ export const update_emp_reducer = (
       return {
         loading: false,
         update_emp: null,
-        update_emp_error: action.payload.data.email[0],
+        update_emp_error: action.payload,
         is_updated_emp:false,
 
       };
