@@ -7,9 +7,11 @@ import {
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAIL,
   USER_DATA_CLEAR_ERRORS,
+  UPDATE_USER_DATA_CLEAR_ERRORS
 } from "../Constants/user_constants";
+import { user_errors } from "../ErrorsHandler";
 
-export const getUserData = () => async (dispatch) => {
+export const get_User = () => async (dispatch) => {
   try {
     dispatch({
       type: USER_DATA_REQUEST,
@@ -29,51 +31,36 @@ export const getUserData = () => async (dispatch) => {
   }
 };
 
-export const updateUserData = (update_payload, id) => async (dispatch) => {
+export const update_user = (update_payload, id) => async (dispatch) => {
   try {
     dispatch({
       type: UPDATE_PROFILE_REQUEST,
     });
-    await axios.patch(
+    const update_user = await axios.patch(
       `${process.env.REACT_APP_API_URL}/api/users/${id}/`,
       update_payload
     );
-    const user_data = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/auth-user/`
-    );
+    // const user_data = await axios.get(
+    //   `${process.env.REACT_APP_API_URL}/api/auth-user/`
+    // );
     dispatch({
       type: UPDATE_PROFILE_SUCCESS,
-      payload: user_data,
+      payload: update_user,
     });
   } catch (error) {
     dispatch({
       type: UPDATE_PROFILE_FAIL,
-      payload: error.response,
-    });
-  }
-};
-export const deleteUserData = (id) => async (dispatch) => {
-  try {
-    dispatch({
-      type: UPDATE_PROFILE_REQUEST,
-    });
-    await axios.delete(`${process.env.REACT_APP_API_URL}/api/users/${id}/`);
-    const user_data = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/auth-user/`
-    );
-    dispatch({
-      type: UPDATE_PROFILE_SUCCESS,
-      payload: user_data,
-    });
-  } catch (error) {
-    dispatch({
-      type: UPDATE_PROFILE_FAIL,
-      payload: error.response,
+      payload: user_errors(error.response.data),
     });
   }
 };
 export const user_data_clearErrors = () => async (dispatch) => {
   dispatch({
     type: USER_DATA_CLEAR_ERRORS,
+  });
+};
+export const update_user_clearErrors = () => async (dispatch) => {
+  dispatch({
+    type: UPDATE_USER_DATA_CLEAR_ERRORS,
   });
 };

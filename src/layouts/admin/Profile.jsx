@@ -21,11 +21,11 @@ import {
 import { ChangePassword, CustomButton, EditProfile } from "../../components";
 
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getUserData,
-  updateUserData,
-  user_data_clearErrors,
-} from "../../store";
+// import {
+//   getUserData,
+//   updateUserData,
+//   user_data_clearErrors,
+// } from "../../store";
 
 const ProfileContainer = styled.div`
   display: flex;
@@ -180,7 +180,7 @@ const Profile = ({ data }) => {
         headcount: totalHeadCount,
         market_share: marketShare,
       };
-      dispatch(updateUserData(payload_update, data.id));
+      // dispatch(updateUserData(payload_update, data.id));
     }
     console.log("here")
   };

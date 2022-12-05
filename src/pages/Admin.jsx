@@ -14,7 +14,7 @@ import {
 } from "../layouts/admin";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getUserData, user_data_clearErrors } from "../store";
+// import { getUserData, user_data_clearErrors } from "../store";
 
 const Master = styled.div`
   width: 100%;
@@ -34,10 +34,10 @@ const Admin = () => {
   );
 
   useEffect(() => {
-    dispatch(getUserData());
+    // dispatch(getUserData());
     if (user_data_error) {
       console.log(user_data_error);
-      dispatch(user_data_clearErrors());
+      // dispatch(user_data_clearErrors());
     }
   }, [dispatch]);
 

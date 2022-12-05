@@ -9,7 +9,7 @@ import { CustomButton } from "../../components";
 import { is_emailValid } from "../../utils";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getUserData, login, login_clearErrors, user_data_clearErrors } from "../../store";
+import { get_User, login } from "../../store";
 import { useNavigate } from "react-router-dom";
 
 
@@ -54,10 +54,10 @@ const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isAuthenticated, user_auth_login_error, token_set, loading } = useSelector(
+  const { isAuthenticated, user_auth_login_error,loading } = useSelector(
     (state) => state.user_auth_login
   );
-  const { user_last_login, user_data_error, updated } = useSelector(
+  const { user_last_login, user_data_succeed } = useSelector(
     (state) => state.user_data
   );
 
@@ -98,7 +98,7 @@ const SignIn = () => {
    };
    useEffect(() => {
     if(isAuthenticated){
-    dispatch(getUserData());
+     dispatch(get_User());
     }
     else if(isAuthenticated === false && loading === false){
       if(user_auth_login_error){
@@ -114,7 +114,7 @@ const SignIn = () => {
    }, [dispatch, isAuthenticated, user_auth_login_error, loading])
 
    useEffect(() => {
-if(updated){
+if(user_data_succeed){
   setSpinner_trigger(false);
   if(user_last_login === null){
     navigate("/36tens/admin/profile");
@@ -125,7 +125,7 @@ if(updated){
   }
 }
 }
-   }, [updated])
+   }, [user_data_succeed])
 
 
 

@@ -2,10 +2,10 @@ export { default as store } from "./store";
 export {
   login,
   login_clearErrors,
+  get_User,
+  update_user,
   user_data_clearErrors,
-  getUserData,
-  updateUserData,
-  deleteUserData,
+  update_user_clearErrors,
   register,
   user_reg_clearErrors,
   changePassword,

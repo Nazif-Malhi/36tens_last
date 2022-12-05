@@ -12,6 +12,9 @@ import {
   employees_reducer,
   groups_reducer,
   update_emp_reducer,
+  
+  update_user_data_reducer,
+  
   user_auth_login_reducer,
   user_data_reducer,
   user_regiser_reducer,
@@ -20,6 +23,7 @@ import {
 const reducer = combineReducers({
   user_auth_login: user_auth_login_reducer,
   user_data: user_data_reducer,
+  update_user:update_user_data_reducer,
   user_reg: user_regiser_reducer,
   change_pass: change_pass_reducer,
   groups: groups_reducer,

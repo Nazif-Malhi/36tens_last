@@ -13,7 +13,7 @@ import {
 } from "../../components";
 
 import { useDispatch, useSelector } from "react-redux";
-import { deleteUserData, get_Employees } from "../../store";
+// import { delete_user, get_Employees } from "../../store";
 import { employees_clearErrors } from "../../store/Actions/employees_actions";
 
 const WorkforceContainer = styled.div`
@@ -115,7 +115,7 @@ const WorkForce = ({ data }) => {
       console.log(employees_error);
       dispatch(employees_clearErrors());
     }
-    dispatch(get_Employees(data.company_name));
+    // dispatch(get_Employees(data.company_name));
   }, [dispatch]);
 
   useEffect(() => {
@@ -158,7 +158,7 @@ const WorkForce = ({ data }) => {
     setShowAddEmployeeModal(true);
   };
   const handleDelete = (id) => {
-    dispatch(deleteUserData(id));
+    // dispatch(deleteUserData(id));
   };
 
   return (

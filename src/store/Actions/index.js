@@ -4,10 +4,10 @@ export { login, login_clearErrors } from "./user_login_auth_actions";
 export { register, user_reg_clearErrors } from "./user_register_actions";
 
 export {
-  getUserData,
-  updateUserData,
-  deleteUserData,
+  get_User,
+  update_user,
   user_data_clearErrors,
+  update_user_clearErrors,
 } from "./user_actions";
 
 export {

@@ -1,15 +1,15 @@
-//Completed
+
 import React, { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 import { Row, Col, Button, Container, Modal } from "react-bootstrap";
 
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserData, user_data_clearErrors } from "../../store";
+// import { updateUserData, user_data_clearErrors } from "../../store";
 import { isNumber } from "../../utils";
 
 function EditProfile(props) {
   const dispatch = useDispatch();
-  const { updated, user_data_error } = useSelector((state) => state.user_data);
+  // const { updated, user_data_error } = useSelector((state) => state.user_data);
 
   const [firstName, setFirstName] = useState(props.first_name);
   const [lastName, setLastName] = useState(props.last_name);
@@ -18,12 +18,12 @@ function EditProfile(props) {
 
   const [text_error_trigger, setTextErrorTrigger] = useState(false);
 
-  useEffect(() => {
-    if (user_data_error) {
-      console.log(user_data_error);
-      dispatch(user_data_clearErrors());
-    }
-  }, [user_data_error]);
+  // useEffect(() => {
+  //   if (user_data_error) {
+  //     console.log(user_data_error);
+  //     dispatch(user_data_clearErrors());
+  //   }
+  // }, [user_data_error]);
 
   const handleSave = () => {
     if (ready_to_change()) {
@@ -32,7 +32,7 @@ function EditProfile(props) {
         last_name: lastName,
         contact_num: contact,
       };
-      dispatch(updateUserData(edit_profile, props.id));
+      // dispatch(updateUserData(edit_profile, props.id));
       setTextErrorTrigger(true);
       onClose();
     }
@@ -122,12 +122,12 @@ function EditProfile(props) {
             <Row
               style={{
                 width: "100%",
-                color: updated ? "green" : "red",
+                // color: updated ? "green" : "red",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              <h6>{updated ? "Updated" : "Not Updated"}</h6>
+              {/* <h6>{updated ? "Updated" : "Not Updated"}</h6> */}
             </Row>
           )}
         </Container>
