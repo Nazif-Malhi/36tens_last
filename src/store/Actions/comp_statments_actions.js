@@ -4,7 +4,7 @@ import {
   COMPETENCIES_STATEMENTS_FAIL,
   COMPETENCIES_STATEMENTS_SUCCESS,
   COMPETENCIES_STATEMENTS_CLEAR_ERRORS,
-} from "../Constants/competency_statements_constants";
+} from "../Constants/comp_statements_constants";
 
 export const get_competencyStatements = () => async (dispatch) => {
   try {

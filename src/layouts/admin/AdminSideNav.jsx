@@ -81,7 +81,7 @@ const AdminSideNav = () => {
     <SideNavComponent>
       <br />
       {sideNavbar.map((val, id) => {
-        if(val.title === "Master" && !user_data.is_superuser){
+        if(val.title === "Master" && user_data.role_title !== "admin"){
           return null;
         }
         else if(val.title === "WorkForce" && user_data.type === "Indvidual"){

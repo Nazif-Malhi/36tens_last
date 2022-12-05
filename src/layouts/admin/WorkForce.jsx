@@ -13,8 +13,8 @@ import {
 } from "../../components";
 
 import { useDispatch, useSelector } from "react-redux";
-import { deleteUserData, get_Employees } from "../../store";
-import { employees_clearErrors } from "../../store/Actions/employees_actions";
+// import { deleteUserData, get_Employees } from "../../store";
+// import { employees_clearErrors } from "../../store/Actions/employees_actions";
 
 const WorkforceContainer = styled.div`
   width: 100%;
@@ -88,13 +88,13 @@ const WorkforceContainer = styled.div`
 
 const WorkForce = ({ data }) => {
   const dispatch = useDispatch();
-  const { employees, loading, employees_error } = useSelector(
-    (state) => state.employees
-  );
+  // const { employees, loading, employees_error } = useSelector(
+  //   (state) => state.employees
+  // );
   let temp = [];
 
   const [search, setSearch] = useState("");
-  const [filterResults, setFilterResults] = useState(employees);
+  // const [filterResults, setFilterResults] = useState(employees);
 
   const [isShowAddEmployeeModal, setShowAddEmployeeModal] = useState(false);
   const [isBulkUpload, setBulkUpload] = useState(false);
@@ -104,23 +104,23 @@ const WorkForce = ({ data }) => {
   const [id, setId] = useState(0);
 
   const filter = () => {
-    const result = employees.filter((list) => {
-      return list.first_name.toLowerCase().match(search.toLowerCase());
-    });
-    setFilterResults(result);
+    // const result = employees.filter((list) => {
+    //   return list.first_name.toLowerCase().match(search.toLowerCase());
+    // });
+    // setFilterResults(result);
   };
 
-  useEffect(() => {
-    if (employees_error) {
-      console.log(employees_error);
-      dispatch(employees_clearErrors());
-    }
-    dispatch(get_Employees(data.company_name));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   if (employees_error) {
+  //     console.log(employees_error);
+  //     dispatch(employees_clearErrors());
+  //   }
+  //   dispatch(get_Employees(data.company_name));
+  // }, [dispatch]);
 
-  useEffect(() => {
-    setFilterResults(employees);
-  }, [employees]);
+  // useEffect(() => {
+  //   setFilterResults(employees);
+  // }, [employees]);
 
   const handleEdit = (
     id,
@@ -137,28 +137,28 @@ const WorkForce = ({ data }) => {
                 address,
                 city,
   ) => {
-    const data = {
-      id: id,
-      first_name: first_name,
-      last_name: last_name,
-      department: department,
-      designation: designation,
-      contact_num: contact_num,
-      group: group,
-      email: email,
-      role_title,
-                country,
-                province,
-                address,
-                city,
-    };
-    setTrigger("isEdit");
-    setEditValue(data);
-    setId(id);
-    setShowAddEmployeeModal(true);
+    // const data = {
+    //   id: id,
+    //   first_name: first_name,
+    //   last_name: last_name,
+    //   department: department,
+    //   designation: designation,
+    //   contact_num: contact_num,
+    //   group: group,
+    //   email: email,
+    //   role_title,
+    //             country,
+    //             province,
+    //             address,
+    //             city,
+    // };
+    // setTrigger("isEdit");
+    // setEditValue(data);
+    // setId(id);
+    // setShowAddEmployeeModal(true);
   };
   const handleDelete = (id) => {
-    dispatch(deleteUserData(id));
+    // dispatch(deleteUserData(id));
   };
 
   return (
@@ -252,8 +252,8 @@ const WorkForce = ({ data }) => {
                 city,
             );
           }}
-          rows={!loading ? filterResults : temp}
-          pending={loading}
+          // rows={!loading ? filterResults : temp}
+          // pending={loading}
         />
       </Row>
 

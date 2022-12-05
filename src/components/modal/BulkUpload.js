@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { AiOutlineUpload } from "react-icons/ai";
 import { Row, Container, Modal, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { add_BulkAdd } from "../../store";
+// import { add_BulkAdd } from "../../store";
 
 const Upload = styled.div`
   border-radius: 7px;
@@ -42,7 +42,7 @@ export function BulkUpload(props) {
   const inputRef = useRef(null);
 
   const dispatch = useDispatch();
-  const { import_fail } = useSelector((state) => state.bulk_users);
+  // const { import_fail } = useSelector((state) => state.bulk_users);
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -60,15 +60,15 @@ export function BulkUpload(props) {
     if (csv_file === null) {
       setText_error("Please upload file");
     } else {
-      dispatch(add_BulkAdd(csv_file));
-      if (import_fail) {
-        setText_error(
-          "Not Imported File format wrong or server down or data may be already present"
-        );
-      } else if (!import_fail) {
-        setText_error("");
-        handleClose();
-      }
+      // dispatch(add_BulkAdd(csv_file));
+      // if (import_fail) {
+      //   setText_error(
+      //     "Not Imported File format wrong or server down or data may be already present"
+      //   );
+      // } else if (!import_fail) {
+      //   setText_error("");
+      //   handleClose();
+      // }
     }
   };
 

@@ -14,7 +14,7 @@ import {
 } from "../layouts/admin";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getUserData, user_data_clearErrors } from "../store";
+import { get_user, user_data_clearErrors } from "../store";
 
 const Master = styled.div`
   width: 100%;
@@ -29,12 +29,11 @@ const MasterWrapper = styled.div`
 
 const Admin = () => {
   const dispatch = useDispatch();
-  const { user_data, updated, user_data_error } = useSelector(
+  const { user_data,  user_data_error, user_data_succeed } = useSelector(
     (state) => state.user_data
   );
-
   useEffect(() => {
-    dispatch(getUserData());
+    dispatch(get_user());
     if (user_data_error) {
       console.log(user_data_error);
       dispatch(user_data_clearErrors());
@@ -48,7 +47,7 @@ const Admin = () => {
       <MasterWrapper>
         <Routes>
           <Route path="dashboard" element={<Dashboard />} />
-          {updated && (
+          {user_data_succeed && (
             <>
               <Route path="profile" element={<Profile data={user_data} />} />
               <Route

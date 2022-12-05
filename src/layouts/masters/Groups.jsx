@@ -16,13 +16,18 @@ import {
 
 const Groups = () => {
   const dispatch = useDispatch();
+
   const { groups, loading, group_error } = useSelector((state) => state.groups);
+
+
   const [trigger, setTrigger] = useState("");
   const [editValue, setEditValue] = useState("");
   const [id, setId] = useState(0);
   let temp = [];
 
   const [show_modal, setShow_Modal] = useState(false);
+
+
   useEffect(() => {
     dispatch(getGroups());
     if (group_error) {

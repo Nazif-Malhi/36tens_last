@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import styled from "styled-components";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button, Spinner } from "react-bootstrap";
 import {
   InputLabel,
   MenuItem,
@@ -21,11 +21,8 @@ import {
 import { ChangePassword, CustomButton, EditProfile } from "../../components";
 
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getUserData,
-  updateUserData,
-  user_data_clearErrors,
-} from "../../store";
+import { update_user, update_user_clearErrors } from "../../store";
+import { useEffect } from "react";
 
 const ProfileContainer = styled.div`
   display: flex;
@@ -97,9 +94,11 @@ const ProfileContainer = styled.div`
 
 const Profile = ({ data }) => {
   const dispatch = useDispatch();
-  const { user_data, updated, user_data_error } = useSelector(
+  const { user_data, user_data_error, user_data_succeed } = useSelector(
     (state) => state.user_data
   );
+
+  const {is_updated_user, update_user_error} = useSelector((state) => state.update_user);
 
   const options = useMemo(() => countryList().getData(), []);
   const [firstName, setFirstName] = useState(
@@ -154,6 +153,27 @@ const Profile = ({ data }) => {
   const [changePasswordModal, setChangePasswordModal] = useState(false);
 
   const [text_error, setText_error] = useState("");
+  const [spinner_trigger, setSpinner_trigger] = useState(false);
+
+
+  useEffect(() => {
+if(!is_updated_user){
+  if(update_user_error){
+    update_user_error.feild === "email" ? 
+  setText_error(update_user_error.error)
+  : setText_error(update_user_error.feild +" : "+update_user_error.error)
+  setSpinner_trigger(false);
+
+  }
+  
+
+}
+else if(is_updated_user){
+  setText_error("");
+  setSpinner_trigger(false);
+
+}
+  }, [is_updated_user])
 
   const ready_to_change = () => {
     if (data.type === "Company") {
@@ -180,10 +200,20 @@ const Profile = ({ data }) => {
         headcount: totalHeadCount,
         market_share: marketShare,
       };
-      dispatch(updateUserData(payload_update, data.id));
+      if(!spinner_trigger){
+        
+      dispatch(update_user_clearErrors());
+      setSpinner_trigger(true);
+      dispatch(update_user(payload_update, data.id));
+      }
     }
-    console.log("here")
   };
+
+  const editprofile_onclose = () => {
+    setText_error("");
+    setEditProfileModal(false);
+
+  }
 
   return (
     <>
@@ -524,7 +554,7 @@ const Profile = ({ data }) => {
                       handleUpadate();
                     }}
                   >
-                    Update
+                                {spinner_trigger ? <Spinner animation="border" variant="light" /> : "Update"}
                   </CustomButton>
                 </Col>
               </Row>
@@ -535,7 +565,7 @@ const Profile = ({ data }) => {
       <EditProfile
         show={editProfileModal}
         onHide={() => {
-          setEditProfileModal(false);
+          editprofile_onclose();
         }}
         first_name={data.first_name}
         last_name={data.last_name}

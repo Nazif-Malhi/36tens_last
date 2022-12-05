@@ -8,15 +8,15 @@ import ReactPhoneInput from 'react-phone-input-material-ui';
 
 import { useDispatch, useSelector } from "react-redux";
 import {
-  department_clearErrors,
-  designation_clearErrors,
-  groups_clearErrors,
-  get_Departments,
-  get_Designation,
-  getGroups,
-  register,
-  update_employee,
-  get_Employees,
+  // department_clearErrors,
+  // designation_clearErrors,
+  // groups_clearErrors,
+  // get_Departments,
+  // get_Designation,
+  // getGroups,
+  // register,
+  // update_employee,
+  // get_Employees,
 } from "../../store";
 import { isNumber, is_emailValid } from "../../utils";
 import styled from "styled-components";
@@ -32,18 +32,18 @@ function AddEmployee({ onHandleCallBack, ...props }) {
   const dispatch = useDispatch();
   const options = useMemo(() => countryList().getData(), []);
 
-  const {user_data} = useSelector((state) => state.user_data)
-  const { groups, group_error } = useSelector((state) => state.groups);
-  const { designations, designation_error } = useSelector(
-    (state) => state.designations
-  );
-  const { department, department_error } = useSelector(
-    (state) => state.departments
-  );
-  const { user_reg, user_reg_error, is_reg } = useSelector(
-    (state) => state.user_reg
-  );
-  const {update_emp, update_emp_error, is_updated_emp} = useSelector( (state) => state.update_emp);
+  // const {user_data} = useSelector((state) => state.user_data)
+  // const { groups, group_error } = useSelector((state) => state.groups);
+  // const { designations, designation_error } = useSelector(
+  //   (state) => state.designations
+  // );
+  // const { department, department_error } = useSelector(
+  //   (state) => state.departments
+  // );
+  // const { user_reg, user_reg_error, is_reg } = useSelector(
+  //   (state) => state.user_reg
+  // );
+  // const {update_emp, update_emp_error, is_updated_emp} = useSelector( (state) => state.update_emp);
 
   
 
@@ -74,15 +74,15 @@ function AddEmployee({ onHandleCallBack, ...props }) {
   const [text_error, setText_error] = useState("");
 
   useEffect(() => {
-    if (group_error || designation_error || department_error) {
-      console.log(group_error, designation_error, department_error);
-      dispatch(designation_clearErrors());
-      dispatch(department_clearErrors());
-      dispatch(groups_clearErrors());
-    }
-    dispatch(getGroups());
-    dispatch(get_Departments());
-    dispatch(get_Designation());
+    // if (group_error || designation_error || department_error) {
+    //   console.log(group_error, designation_error, department_error);
+    //   dispatch(designation_clearErrors());
+    //   dispatch(department_clearErrors());
+    //   dispatch(groups_clearErrors());
+    // }
+    // dispatch(getGroups());
+    // dispatch(get_Departments());
+    // dispatch(get_Designation());
   }, [dispatch]);
 
   useEffect(() => {
@@ -149,17 +149,17 @@ function AddEmployee({ onHandleCallBack, ...props }) {
       province:province,
       address:address,
 
-      package_title: user_data.package_title,
-      company_name:user_data.company_name,
-      company_type:user_data.company_type,
-      industry:user_data.industry,
-      revenue:user_data.revenue,
-      headcount:user_data.headcount,
-      market_share:user_data.market_share,
-      type:user_data.type,
+      // package_title: user_data.package_title,
+      // company_name:user_data.company_name,
+      // company_type:user_data.company_type,
+      // industry:user_data.industry,
+      // revenue:user_data.revenue,
+      // headcount:user_data.headcount,
+      // market_share:user_data.market_share,
+      // type:user_data.type,
 
-      role_title: "admin",       // => must be changed to viewer
-      password: "360@password_guest",
+      // role_title: "admin",       // => must be changed to viewer
+      // password: "360@password_guest",
     };
     if (
       // employee_id.length === 0 ||
@@ -193,10 +193,10 @@ function AddEmployee({ onHandleCallBack, ...props }) {
       } else {
         switch (props.trigger) {
           case "isAdd":
-             dispatch(register(update_payoad));
+            //  dispatch(register(update_payoad));
             break;
           case "isEdit":
-            dispatch(update_employee(update_payoad, props.id));
+            // dispatch(update_employee(update_payoad, props.id));
             break;
           default:
             break;
@@ -205,37 +205,37 @@ function AddEmployee({ onHandleCallBack, ...props }) {
     }
     }
   };
-  useEffect(() => {
-    if (!is_reg) {
-      if (user_reg_error) {
-        user_reg_error.feild === "email" ? 
-          setText_error(user_reg_error.error)
-          : setText_error(user_reg_error.feild +" : "+user_reg_error.error)
-        setSpinner_trigger(false)
-      }
-    } else {
-      dispatch(get_Employees(props.company_name));
-      setSpinner_trigger(false)
-      handleOnClose();
-    }
-  }, [is_reg]);
+  // useEffect(() => {
+  //   if (!is_reg) {
+  //     if (user_reg_error) {
+  //       user_reg_error.feild === "email" ? 
+  //         setText_error(user_reg_error.error)
+  //         : setText_error(user_reg_error.feild +" : "+user_reg_error.error)
+  //       setSpinner_trigger(false)
+  //     }
+  //   } else {
+  //     dispatch(get_Employees(props.company_name));
+  //     setSpinner_trigger(false)
+  //     handleOnClose();
+  //   }
+  // }, [is_reg]);
 
-  useEffect(() => {
-    if(!is_updated_emp){
-      if (update_emp_error) {
-        update_emp_error.feild === "email" ? 
-          setText_error(update_emp_error.error)
-          : setText_error(update_emp_error.feild +" : "+update_emp_error.error)
-        setSpinner_trigger(false)
-      }
+  // useEffect(() => {
+  //   if(!is_updated_emp){
+  //     if (update_emp_error) {
+  //       update_emp_error.feild === "email" ? 
+  //         setText_error(update_emp_error.error)
+  //         : setText_error(update_emp_error.feild +" : "+update_emp_error.error)
+  //       setSpinner_trigger(false)
+  //     }
 
-    } else{
-      dispatch(get_Employees(props.company_name));
-      setSpinner_trigger(false)
+  //   } else{
+  //     dispatch(get_Employees(props.company_name));
+  //     setSpinner_trigger(false)
 
-      handleOnClose();
-    }
-  }, [is_updated_emp]);
+  //     handleOnClose();
+  //   }
+  // }, [is_updated_emp]);
 
   const handleOnClose = () => {
     emptyFeilds();
@@ -386,13 +386,13 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                   <MenuItem value="">
                     <em>Designation</em>
                   </MenuItem>
-                  {designations.map((val, index) => {
+                  {/* {designations.map((val, index) => {
                     return (
                       <MenuItem id={index} value={val.title} key={index}>
                         {val.title}
                       </MenuItem>
                     );
-                  })}
+                  })} */}
                 </Select>
               </FormControl>
             </Col>
@@ -412,14 +412,14 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                 >
                   <MenuItem value="">
                     <em>Group</em>
-                  </MenuItem>
-                  {groups.map((val, index) => {
+                   </MenuItem>
+                  {/*{groups.map((val, index) => {
                     return (
                       <MenuItem id={index} value={val.title} key={index}>
                         {val.title}
                       </MenuItem>
                     );
-                  })}
+                  })} */}
                 </Select>
               </FormControl>
             </Col>
@@ -440,13 +440,13 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                   <MenuItem value="">
                     <em>Department</em>
                   </MenuItem>
-                  {department.map((val, index) => {
+                  {/* {department.map((val, index) => {
                     return (
                       <MenuItem id={index} value={val.title} key={index}>
                         {val.title}
                       </MenuItem>
                     );
-                  })}
+                  })} */}
                 </Select>
               </FormControl>
             </Col>
@@ -496,7 +496,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                 size="small"
                 fullWidth
                 disabled
-                value={user_data.package_title === "2" ? "Custom" : "Standard"}
+                // value={user_data.package_title === "2" ? "Custom" : "Standard"}
               />
             </Col>
           </Row>
@@ -551,7 +551,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                     size="small"
                     fullWidth
                     disabled
-                    value={user_data.company_name}
+                    // value={user_data.company_name}
                    
                   />
                 </Col>
@@ -563,7 +563,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                 size="small"
                 fullWidth
                 disabled
-                    value={user_data.company_type}
+                    // value={user_data.company_type}
               />
                 </Col>
                 <Col>
@@ -574,7 +574,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                 size="small"
                 fullWidth
                 disabled
-                    value={user_data.industry}
+                    // value={user_data.industry}
               />
                 </Col>
           </Row>
@@ -588,7 +588,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                 size="small"
                 fullWidth
                 disabled
-                value={user_data.revenue}
+                // value={user_data.revenue}
               />
                 </Col>
                 <Col>
@@ -599,7 +599,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                 size="small"
                 fullWidth
                 disabled
-                value={user_data.headcount}
+                // value={user_data.headcount}
               />
                 </Col>
                 <Col>
@@ -610,7 +610,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                 size="small"
                 fullWidth
                 disabled
-                value={user_data.market_share}
+                // value={user_data.market_share}
               />
                 </Col>
           </Row>
@@ -623,7 +623,7 @@ function AddEmployee({ onHandleCallBack, ...props }) {
                 size="small"
                 fullWidth
                 disabled
-                value={user_data.type}
+                // value={user_data.type}
               />
             </Col>
           </Row>

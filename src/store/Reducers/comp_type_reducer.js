@@ -3,7 +3,7 @@ import {
   COMPETENCIES_TYPE_FAIL,
   COMPETENCIES_TYPE_SUCCESS,
   COMPETENCIES_TYPE_CLEAR_ERRORS,
-} from "../Constants/competency_type_constants";
+} from "../Constants/comp_type_constants";
 
 export const competency_type_reducer = (
   state = {

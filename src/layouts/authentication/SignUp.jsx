@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { register, user_reg_clearErrors } from "../../store/Actions";
 
 
+
 const SignUpWrapper = styled.div`
   width: 45%;
   background-color: white;
@@ -91,6 +92,29 @@ const SignUp = () => {
   const [spinner_trigger, setSpinner_trigger] = useState(false);
 
 
+  useEffect(() => {
+    if(!is_reg){
+      if (user_reg_error) {
+        user_reg_error.feild === "email" ? 
+          setText_error(user_reg_error.error)
+          : setText_error(user_reg_error.feild +" : "+user_reg_error.error)
+        setSpinner_trigger(false)
+      }
+    }
+    else{
+      if (status === "Created") {
+
+        localStorage.setItem("temp_user", firstName+" "+lastName);
+        dispatch(user_reg_clearErrors());
+        navigate("/36tens/verify-email");
+      } else if (status === "Not Created") {
+        setText_error(status);
+      }
+      setSpinner_trigger(false)
+
+    }
+}, [dispatch, user_reg_error, status, navigate]);
+
   const handleEmail_Validation = (email) => {
     setEmail(email);
     if (is_emailValid(email)) {
@@ -99,33 +123,6 @@ const SignUp = () => {
     } else {
       setEmail_validation_error(true);
       setText_error("Email not valid");
-    }
-  };
-
-  const request_for_register = () => {
-    if(!spinner_trigger){
-      setSpinner_trigger(true)
-      const signup_payoad = {
-        first_name: firstName,
-        last_name: lastName,
-        contact_num: mobileNumber,
-        company_name: companyName,
-        email: email,
-        password: password,
-        type: whoYouAre,
-        package_title:
-          packageOfUser === "Custom"
-            ? 2
-            : packageOfUser === "Standard"
-            ? 1
-            : null,
-            role_title: "admin",
-      };
-      if (email_validation_error) {
-        setText_error("Email not valid");
-      } else {
-        dispatch(register(signup_payoad));
-      }
     }
   };
 
@@ -160,30 +157,37 @@ const SignUp = () => {
       }
     }
   };
-  useEffect(() => {
-      if(!is_reg){
-        if (user_reg_error) {
-          user_reg_error.feild === "email" ? 
-            setText_error(user_reg_error.error)
-            : setText_error(user_reg_error.feild +" : "+user_reg_error.error)
-          setSpinner_trigger(false)
-        }
-      }
-      else{
-        if (status === "Created") {
   
-          localStorage.setItem("temp_user", firstName+" "+lastName);
-          dispatch(user_reg_clearErrors());
-          navigate("/36tens/verify-email");
-        } else if (status === "Not Created") {
-          setText_error(status);
-        }
-        setSpinner_trigger(false)
+
+  const request_for_register = () => {
+    if(!spinner_trigger){
+      setSpinner_trigger(true)
+      const signup_payoad = {
+        first_name: firstName,
+        last_name: lastName,
+        contact_num: mobileNumber,
+        company_name: companyName,
+        email: email,
+        password: password,
+        type: whoYouAre,
+        package_title:
+          packageOfUser === "Custom"
+            ? 2
+            : packageOfUser === "Standard"
+            ? 1
+            : null,
+            role_title: "admin",
+      };
+      if (email_validation_error) {
+        setText_error("Email not valid");
+        setSpinner_trigger(false);
+      } else {
+        dispatch(register(signup_payoad));
+        setSpinner_trigger(false);
 
       }
-  }, [dispatch, user_reg_error, status, navigate]);
-
-
+    }
+  };
 
   return (
     <StyledContainer signup>

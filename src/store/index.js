@@ -1,13 +1,13 @@
 export { default as store } from "./store";
 export {
-  login,
-  login_clearErrors,
-  user_data_clearErrors,
-  getUserData,
-  updateUserData,
-  deleteUserData,
   register,
   user_reg_clearErrors,
+  login,
+  login_clearErrors,
+  get_user,
+  user_data_clearErrors,
+  update_user,
+  update_user_clearErrors,
   changePassword,
   change_password_clearErrors,
   getGroups,
@@ -40,8 +40,5 @@ export {
   update_competencyStatements,
   delete_competencyStatements,
   competencyStatment_clearErrors,
-  get_Employees,
-  update_employee,
-  update_emp_clearErrors,
-  add_BulkAdd,
+  
 } from "./Actions";

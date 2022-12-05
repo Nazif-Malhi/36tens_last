@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Button, Container, Modal } from "react-bootstrap";
+import { Row, Col, Button, Container, Modal, Spinner } from "react-bootstrap";
 import { TextField } from "@mui/material";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +7,7 @@ import { changePassword, change_password_clearErrors } from "../../store";
 
 function ChangePassword(props) {
   const dispatch = useDispatch();
-  const { error, change_pass, status, pass_status } = useSelector(
+  const { change_pass_error, change_pass, status, pass_status } = useSelector(
     (state) => state.change_pass
   );
 
@@ -15,6 +15,8 @@ function ChangePassword(props) {
   const [newPassword, setNewPassword] = useState("");
   const [success, setSuccess] = useState("");
   const [text_error, setText_error] = useState("");
+  const [spinner_trigger, setSpinner_trigger] = useState(false);
+
 
   const handleChangePassword = () => {
     if (ready_to_change()) {
@@ -22,8 +24,12 @@ function ChangePassword(props) {
         old_password: oldPassword,
         new_password: newPassword,
       };
-      console.log(change_password_payload);
+      if(!spinner_trigger){
+        setText_error("");
+        setSuccess("");
+      setSpinner_trigger(true);
       dispatch(changePassword(change_password_payload));
+      }
     }
   };
 
@@ -38,18 +44,29 @@ function ChangePassword(props) {
   };
 
   useEffect(() => {
-    if (error) {
-      console.log(error);
-      dispatch(change_password_clearErrors());
+    if(!pass_status){
+      if(change_pass_error){
+        setText_error(change_pass_error.error)
+        setSpinner_trigger(false);
+
+      }
     }
-    if (pass_status) {
+    else if(pass_status){
+      setText_error("");
+      dispatch(change_password_clearErrors());
+      setSpinner_trigger(false);
       setSuccess(status);
     }
-  }, [dispatch, change_pass, status, pass_status, error]);
+  }, [dispatch, change_pass, status, pass_status, change_pass_error]);
 
+const handle_on_close = () => {
+  setText_error("");
+        setSuccess("");
+        props.onHide();
+}
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" size="lg">
-      <Modal.Header closeButton>
+      <Modal.Header closeButton onClick={handle_on_close}>
         <Modal.Title id="contained-modal-title-vcenter">
           Change Password
         </Modal.Title>
@@ -107,7 +124,7 @@ function ChangePassword(props) {
       <Modal.Footer>
         <Button
           style={{ background: "white", border: "none", color: "black" }}
-          onClick={props.onHide}
+          onClick={handle_on_close}
         >
           Cancel
         </Button>
@@ -117,7 +134,7 @@ function ChangePassword(props) {
             handleChangePassword();
           }}
         >
-          Save
+                                          {spinner_trigger ? <Spinner animation="border" variant="light" /> : "Save"}
         </Button>
       </Modal.Footer>
     </Modal>

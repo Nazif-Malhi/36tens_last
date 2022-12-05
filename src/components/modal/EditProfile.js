@@ -1,15 +1,15 @@
-//Completed
 import React, { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
-import { Row, Col, Button, Container, Modal } from "react-bootstrap";
+import { Row, Col, Button, Container, Modal, Spinner } from "react-bootstrap";
 
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserData, user_data_clearErrors } from "../../store";
 import { isNumber } from "../../utils";
+import { update_user, update_user_clearErrors } from "../../store";
 
 function EditProfile(props) {
   const dispatch = useDispatch();
-  const { updated, user_data_error } = useSelector((state) => state.user_data);
+  const {is_updated_user, update_user_error} = useSelector((state) => state.update_user);
+
 
   const [firstName, setFirstName] = useState(props.first_name);
   const [lastName, setLastName] = useState(props.last_name);
@@ -17,13 +17,25 @@ function EditProfile(props) {
   const [text_error, setText_error] = useState("");
 
   const [text_error_trigger, setTextErrorTrigger] = useState(false);
+  const [spinner_trigger, setSpinner_trigger] = useState(false);
+
 
   useEffect(() => {
-    if (user_data_error) {
-      console.log(user_data_error);
-      dispatch(user_data_clearErrors());
+    if(!is_updated_user){
+      if(update_user_error){
+        update_user_error.feild === "email" ? 
+      setText_error(update_user_error.error)
+      : setText_error(update_user_error.feild +" : "+update_user_error.error)
+      }
+      
     }
-  }, [user_data_error]);
+    else if(is_updated_user){
+      setText_error("");
+      dispatch(update_user_clearErrors());
+      setSpinner_trigger(false);
+      onClose();
+    }
+  }, [is_updated_user]);
 
   const handleSave = () => {
     if (ready_to_change()) {
@@ -32,9 +44,13 @@ function EditProfile(props) {
         last_name: lastName,
         contact_num: contact,
       };
-      dispatch(updateUserData(edit_profile, props.id));
-      setTextErrorTrigger(true);
-      onClose();
+      if(!spinner_trigger){
+        
+        dispatch(update_user_clearErrors());
+        setSpinner_trigger(true);
+        dispatch(update_user(edit_profile, props.id));
+        setTextErrorTrigger(true);
+        }
     }
   };
 
@@ -60,7 +76,7 @@ function EditProfile(props) {
     setLastName(props.last_name);
     setContact(props.contact);
     setTextErrorTrigger(false);
-
+    setText_error("");
     props.onHide();
   };
   return (
@@ -122,12 +138,12 @@ function EditProfile(props) {
             <Row
               style={{
                 width: "100%",
-                color: updated ? "green" : "red",
+                 color: is_updated_user ? "green" : "red",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              <h6>{updated ? "Updated" : "Not Updated"}</h6>
+              <h6>{is_updated_user ? "Updated" : "Not Updated"}</h6>
             </Row>
           )}
         </Container>
@@ -145,7 +161,7 @@ function EditProfile(props) {
             handleSave();
           }}
         >
-          Save
+                                          {spinner_trigger ? <Spinner animation="border" variant="light" /> : "Save"}
         </Button>
       </Modal.Footer>
     </Modal>
